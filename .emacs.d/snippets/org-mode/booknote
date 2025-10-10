@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# name: Book Note
+# key: booknote
+# --
+#+TITLE: ${1:}
+#+AUTHOR: ` (file-name-nondirectory (directory-file-name default-directory)) `
+#+PUBLISHER: ${4:}
+#+PUBLISHED: ${3:}
+#+START_DATE: ` (format-time-string "<%Y-%m-%d>") `
+#+END_DATE: 
+#+STARTUP: ${4:overview}
+
+${0}

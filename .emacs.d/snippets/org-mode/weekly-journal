@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: weekly-journal
+# key: wjournal
+# --
+#+TITLE: Weekly Journal (`(format-time-string "%G - W%V")`)
+#+STARTUP: overview
+
+* TODO Weekly [/]
+
+$0

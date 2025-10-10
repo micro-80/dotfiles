@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: Daily TODO
+# key: dailytodo
+# --
+** TODO Daily [0/0]
+${0}
