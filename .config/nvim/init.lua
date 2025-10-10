@@ -27,13 +27,18 @@ vim.keymap.set('n', "<leader>lf", vim.lsp.buf.format)
 vim.pack.add({
 	"https://github.com/NMAC427/guess-indent.nvim",
 	"https://github.com/L3MON4D3/LuaSnip",
-	--"https://github.com/mason-org/mason.nvim",
 	"https://github.com/nvim-mini/mini.nvim",
-	"https://github.com/stevearc/oil.nvim",
 	"https://github.com/vague-theme/vague.nvim",
 })
 
 require('guess-indent').setup {}
+
+require('mini.diff').setup {}
+require('mini.git').setup {}
+require('mini.files').setup {}
+require('mini.notify').setup {}
+require('mini.statusline').setup {}
+require('mini.surround').setup {}
 
 require('mini.pick').setup {}
 vim.keymap.set('n', "<leader>pb", ":Pick buffers<CR>")
@@ -41,19 +46,6 @@ vim.keymap.set('n', "<leader>pf", ":Pick files<CR>")
 vim.keymap.set('n', "<leader>ph", ":Pick help<CR>")
 vim.keymap.set('n', "<leader>pg", ":Pick grep_live<CR>")
 vim.keymap.set('n', "<leader>pr", ":Pick resume<CR>")
-
-require('oil').setup {
-	columns = {
-		"permissions",
-		"size",
-		"mtime"
-	},
-	watch_for_changes = true,
-	view_options = {
-		show_hidden = true
-	},
-}
-vim.keymap.set('n', "<leader>e", ":Oil<CR>")
 
 require('vague').setup {
 	style = {
