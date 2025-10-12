@@ -4,17 +4,30 @@
       "rev": "7381330",
       "src": "https://github.com/L3MON4D3/LuaSnip"
     },
-    "guess-indent.nvim": {
-      "rev": "84a4987",
-      "src": "https://github.com/NMAC427/guess-indent.nvim"
+    "bullets.vim": {
+      "rev": "1c13e51",
+      "src": "https://github.com/bullets-vim/bullets.vim"
     },
     "mini.nvim": {
-      "rev": "57c1611",
+      "rev": "1858276",
       "src": "https://github.com/nvim-mini/mini.nvim"
     },
+    "nvim-treesitter": {
+      "rev": "0606c7a9",
+      "src": "https://github.com/nvim-treesitter/nvim-treesitter",
+      "version": "'main'"
+    },
+    "oil.nvim": {
+      "rev": "919e155",
+      "src": "https://github.com/stevearc/oil.nvim"
+    },
     "vague.nvim": {
-      "rev": "27a19ff",
+      "rev": "cdbfdc8",
       "src": "https://github.com/vague-theme/vague.nvim"
+    },
+    "vim-sleuth": {
+      "rev": "be69bff",
+      "src": "https://github.com/tpope/vim-sleuth"
     }
   }
 }
