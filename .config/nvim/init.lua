@@ -135,14 +135,16 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 require('oil').setup {
+	watch_for_changes = true,
 	columns = {
 		"permissions",
 		"size",
 		"mtime",
 		"icon"
 	},
-	show_hidden = true,
-	watch_for_changes = true,
+	view_options = {
+		show_hidden = true,
+	},
 }
 vim.keymap.set('n', "<leader>e", ":Oil<CR>")
 
