@@ -2,25 +2,30 @@ vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.conceallevel = 2
 vim.opt.pumborder = "single"
+vim.opt.pumheight = 7
 vim.opt.winborder = "single"
 vim.opt.signcolumn = "yes:1"
 vim.opt.linebreak = true
 vim.opt.tabstop = 4
 vim.opt.foldtext = ""
 vim.opt.foldlevel = 99
-vim.opt.exrc = true
-vim.opt.secure = true
+vim.opt.linebreak = true
+vim.opt.breakindent = true
 vim.opt.swapfile = false
+vim.opt.complete = ".,o"
+vim.opt.autocomplete = false
+vim.opt.completeopt = "fuzzy,menuone,noselect,popup"
 
 vim.g.mapleader = " "
 vim.keymap.set('n', "<A-w>", ':bd<CR>')
 vim.keymap.set({ 'n', 'v', 'x' }, "<leader>d", '"+d<CR>')
 vim.keymap.set({ 'n', 'v', 'x' }, "<leader>y", '"+y<CR>')
 vim.keymap.set("n", "f", "gwip")
-vim.keymap.set("n", "F", function()
-  vim.cmd("normal! m'gggqG`'")
+vim.keymap.set('n', 'F', function()
+	local pos = vim.api.nvim_win_get_cursor(0)
+	vim.cmd('normal! ggVGgw')
+	vim.api.nvim_win_set_cursor(0, pos)
 end)
-
 
 vim.keymap.set('n', "<leader>d", vim.diagnostic.open_float)
 vim.keymap.set("n", "[d", function() vim.diagnostic.jump({ count = -1, float = true }) end)
@@ -35,6 +40,15 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
+vim.api.nvim_create_autocmd("FileType", {
+	desc = "80 character width on gitcommit files",
+	pattern = { "gitcommit" },
+	callback = function()
+		vim.opt_local.colorcolumn = "80"
+		vim.opt_local.textwidth = 80
+	end,
+})
+
 local home = vim.fn.expand("~")
 vim.api.nvim_create_autocmd("BufEnter", {
 	desc = "Set text width 120 for Notes folder",
@@ -45,7 +59,6 @@ vim.api.nvim_create_autocmd("BufEnter", {
 	end,
 })
 
-vim.cmd [[set completeopt+=fuzzy,menuone,noselect,popup]]
 vim.api.nvim_create_autocmd('LspAttach', {
 	group = vim.api.nvim_create_augroup('my.lsp', {}),
 	callback = function(args)
@@ -128,6 +141,8 @@ require('oil').setup {
 		"mtime",
 		"icon"
 	},
+	show_hidden = true,
+	watch_for_changes = true,
 }
 vim.keymap.set('n', "<leader>e", ":Oil<CR>")
 
