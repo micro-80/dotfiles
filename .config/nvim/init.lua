@@ -1,3 +1,34 @@
+local enabled_lsps = {
+	"lua_ls",
+	"markdown-oxide"
+}
+local treesitter_install = {
+	'c',
+	'c_sharp',
+	'cpp',
+	'css',
+	'csv',
+	'git_config',
+	'gitcommit',
+	'gitignore',
+	'go',
+	'gomod',
+	'html',
+	'hurl',
+	'java',
+	'json',
+	'lua',
+	'markdown',
+	'python',
+	'sql',
+	'svelte',
+	'toml',
+	'yaml',
+	'rust',
+	'javascript',
+	'typescript'
+}
+
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.conceallevel = 2
@@ -68,7 +99,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 		end
 	end,
 })
-vim.lsp.enable({ "lua_ls", "markdown-oxide" })
+vim.lsp.enable(enabled_lsps)
 vim.keymap.set('n', "<leader>la", vim.lsp.buf.code_action)
 vim.keymap.set('n', "<leader>lf", vim.lsp.buf.format)
 vim.keymap.set('n', "<leader>r", vim.lsp.buf.rename)
@@ -96,8 +127,6 @@ require('mini.surround').setup {}
 
 local pick = require("mini.pick").builtin
 local extra = require("mini.extra")
-vim.ui.select = pick.ui_select
-
 vim.keymap.set('n', '<leader>pb', pick.buffers)
 vim.keymap.set("n", "<leader>pd", extra.pickers.diagnostic)
 vim.keymap.set('n', '<leader>pf', pick.files)
@@ -116,7 +145,7 @@ vim.keymap.set('n', "<leader>lt", function() extra.pickers.lsp({ scope = 'type_d
 
 vim.keymap.set("n", "z=", extra.pickers.spellsuggest)
 
-require('nvim-treesitter').install { 'c', 'c_sharp', 'cpp', 'css', 'csv', 'git_config', 'gitcommit', 'gitignore', 'go', 'gomod', 'html', 'hurl', 'java', 'json', 'lua', 'markdown', 'python', 'sql', 'svelte', 'toml', 'yaml', 'rust', 'javascript', 'typescript' }
+require('nvim-treesitter').install(treesitter_install)
 vim.api.nvim_create_autocmd("FileType", {
 	desc = "Enable Tree-sitter highlighting and folds",
 	pattern = "*",
