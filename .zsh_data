@@ -1,0 +1,10 @@
+export EDITOR=nvim
+
+function install_nvim_nightly () {
+	echo "test"
+	mkdir -p "$HOME/.bin/data/nvim-nightly"
+	curl -L -o /tmp/nvim.tar.gz https://github.com/neovim/neovim/releases/download/nightly/nvim-macos-arm64.tar.gz 
+	xattr -c /tmp/nvim.tar.gz
+	tar xzvf /tmp/nvim.tar.gz -C "$HOME/.bin/data/nvim-nightly" --strip-components=1
+	ln -sf "$HOME/.bin/data/nvim-nightly/bin/nvim" "$HOME/.bin/nvim"
+}
