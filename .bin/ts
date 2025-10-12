@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+# inspired by https://github.com/ThePrimeagen/.dotfiles/blob/master/bin/.local/scripts/tmux-sessionizer
+
+if [[ $# -eq 1 ]]; then
+    selected=$1
+else
+    selected=$(find ~/ ~/Code -mindepth 1 -maxdepth 1 -type d | fzf)
+fi
+
+if [[ -z $selected ]]; then
+    exit 0
+fi
+
+selected_name=$(basename "$selected" | tr . _)
+
+if ! tmux has-session -t="$selected_name" 2>/dev/null; then
+    tmux new-session -ds "$selected_name" -c "$selected" "nvim ."
+    tmux new-window -t "$selected_name" -c "$selected"
+    tmux select-window -t "$selected_name":1
+fi
+
+if [[ -n $TMUX ]]; then
+    tmux switch-client -t "$session_name"
+else
+    tmux attach-session -t "$session_name"
+fi
