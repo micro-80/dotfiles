@@ -1,15 +1,15 @@
 {
   "plugins": {
-    "LuaSnip": {
-      "rev": "7381330",
-      "src": "https://github.com/L3MON4D3/LuaSnip"
-    },
     "bullets.vim": {
       "rev": "1c13e51",
       "src": "https://github.com/bullets-vim/bullets.vim"
     },
+    "fzf-lua": {
+      "rev": "83e4080",
+      "src": "https://github.com/ibhagwan/fzf-lua"
+    },
     "mini.nvim": {
-      "rev": "1858276",
+      "rev": "89eecd8",
       "src": "https://github.com/nvim-mini/mini.nvim"
     },
     "nvim-treesitter": {
@@ -18,7 +18,7 @@
       "version": "'main'"
     },
     "oil.nvim": {
-      "rev": "919e155",
+      "rev": "200df01",
       "src": "https://github.com/stevearc/oil.nvim"
     },
     "vague.nvim": {
