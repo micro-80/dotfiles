@@ -147,7 +147,13 @@ vim.keymap.set('n', '<leader>fb', fzf_lua.buffers)
 vim.keymap.set('n', '<leader>fd', fzf_lua.diagnostics_document)
 vim.keymap.set('n', '<leader>fw', fzf_lua.diagnostics_workspace)
 vim.keymap.set('n', '<leader>ff', fzf_lua.files)
+vim.keymap.set('n', '<leader>gbl', fzf_lua.git_blame)
+vim.keymap.set('n', '<leader>gbr', fzf_lua.git_branches)
+vim.keymap.set('n', '<leader>gc', fzf_lua.git_commits)
+vim.keymap.set('n', '<leader>gd', fzf_lua.git_diff)
 vim.keymap.set('n', '<leader>gf', fzf_lua.git_files)
+vim.keymap.set('n', '<leader>gh', fzf_lua.git_hunks)
+vim.keymap.set('n', '<leader>gs', fzf_lua.git_stash)
 vim.keymap.set('n', '<leader>fh', fzf_lua.help_tags)
 vim.keymap.set('n', '<leader>fk', fzf_lua.keymaps)
 vim.keymap.set('n', '<leader>fm', fzf_lua.man_pages)
@@ -163,7 +169,17 @@ vim.keymap.set('n', '<leader>ls', fzf_lua.lsp_document_symbols)
 vim.keymap.set('n', '<leader>lt', fzf_lua.lsp_typedefs)
 
 vim.keymap.set('n', 'z=', fzf_lua.spell_suggest)
-vim.keymap.set('n', 'z=', fzf_lua.spell_suggest)
+
+local function fzf_lua_tmux_sessionizer()
+	fzf_lua.fzf_exec('ts --list', {
+		actions = {
+			['default'] = function(selected)
+				vim.fn.system('ts ' .. selected[1])
+			end
+		}
+	})
+end
+vim.keymap.set('n', '<leader>t', fzf_lua_tmux_sessionizer)
 
 require 'mini.diff'.setup {}
 require 'mini.extra'.setup {}

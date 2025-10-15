@@ -2,10 +2,19 @@
 
 # inspired by https://github.com/ThePrimeagen/.dotfiles/blob/master/bin/.local/scripts/tmux-sessionizer
 
+get_options() {
+    find ~/ ~/Code -mindepth 1 -maxdepth 1 -type d 
+}
+
 if [[ $# -eq 1 ]]; then
+    if [[ $1 == "--list" ]]; then
+        get_options
+        exit 0
+    fi
+
     selected=$1
 else
-    selected=$(find ~/ ~/Code -mindepth 1 -maxdepth 1 -type d | fzf)
+    selected=$(get_options | fzf)
 fi
 
 if [[ -z $selected ]]; then
