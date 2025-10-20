@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: daily-journal
-# key: djournal
-# --
-* `(format-time-string "%A, %d %B %Y")`
-** TODO Daily [/]
-$0
