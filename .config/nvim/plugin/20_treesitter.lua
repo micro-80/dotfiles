@@ -1,35 +1,9 @@
-local treesitter_install = {
-	'c',
-	'c_sharp',
-	'cpp',
-	'css',
-	'csv',
-	'git_config',
-	'gitcommit',
-	'gitignore',
-	'go',
-	'gomod',
-	'html',
-	'hurl',
-	'java',
-	'json',
-	'lua',
-	'markdown',
-	'python',
-	'sql',
-	'svelte',
-	'toml',
-	'yaml',
-	'rust',
-	'javascript',
-	'typescript'
-}
-
 vim.pack.add {
 	{ src = 'https://github.com/nvim-treesitter/nvim-treesitter', version = 'main' },
 }
 
-require 'nvim-treesitter'.install(treesitter_install)
+local treesitter_to_install = _G.treesitter_grammars or {}
+require 'nvim-treesitter'.install(treesitter_to_install)
 vim.api.nvim_create_autocmd('FileType', {
 	desc = 'Enable Tree-sitter highlighting and folds',
 	pattern = '*',

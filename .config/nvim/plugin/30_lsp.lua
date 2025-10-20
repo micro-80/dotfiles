@@ -1,17 +1,13 @@
-local enabled_lsps = {
-	'lua_ls',
-	'markdown_oxide'
-}
-
 vim.pack.add {
 	'https://github.com/mason-org/mason.nvim',
 	'https://github.com/mason-org/mason-lspconfig.nvim',
 	'https://github.com/neovim/nvim-lspconfig'
 }
 
+local lsp_servers = _G.lsp_servers or {}
 require 'mason'.setup()
-require 'mason-lspconfig'.setup { ensure_installed = enabled_lsps }
-vim.lsp.enable(enabled_lsps)
+require 'mason-lspconfig'.setup { ensure_installed = lsp_servers }
+vim.lsp.enable(lsp_servers)
 vim.api.nvim_create_autocmd('LspAttach', {
 	group = vim.api.nvim_create_augroup('my.lsp', {}),
 	callback = function(args)
