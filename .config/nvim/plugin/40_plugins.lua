@@ -36,7 +36,9 @@ end, {})
 
 
 local fzf_lua = require 'fzf-lua'
-vim.keymap.set('n', '<leader>fb', fzf_lua.buffers)
+vim.keymap.set('n', '<C-\\>', fzf_lua.buffers)
+vim.keymap.set('n', '<C-p>', fzf_lua.files)
+vim.keymap.set('n', '<C-q>', fzf_lua.live_grep)
 vim.keymap.set('n', '<leader>fd', fzf_lua.diagnostics_document)
 vim.keymap.set('n', '<leader>fw', fzf_lua.diagnostics_workspace)
 vim.keymap.set('n', '<leader>ff', fzf_lua.files)
