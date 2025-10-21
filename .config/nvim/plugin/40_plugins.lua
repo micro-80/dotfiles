@@ -1,10 +1,9 @@
 vim.pack.add {
-	'https://github.com/bullets-vim/bullets.vim',
 	'https://github.com/ibhagwan/fzf-lua',
-	'https://github.com/nvim-mini/mini.nvim',
+	'https://github.com/nvim-mini/mini.statusline',
+	'https://github.com/nvim-tree/nvim-web-devicons',
 	'https://github.com/stevearc/oil.nvim',
-	'https://github.com/vague-theme/vague.nvim',
-	'https://github.com/tpope/vim-sleuth',
+	'https://github.com/vague-theme/vague.nvim'
 }
 
 -- https://github.com/neovim/neovim/issues/35303
@@ -76,14 +75,7 @@ local function fzf_lua_tmux_sessionizer()
 end
 vim.keymap.set('n', '<leader>t', fzf_lua_tmux_sessionizer)
 
-require 'mini.diff'.setup {}
-require 'mini.extra'.setup {}
-require 'mini.git'.setup {}
-require 'mini.icons'.setup {}
-require 'mini.indentscope'.setup {}
-require 'mini.notify'.setup {}
 require 'mini.statusline'.setup {}
-require 'mini.surround'.setup {}
 
 local oil = require 'oil'
 oil.setup {

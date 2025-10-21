@@ -16,9 +16,9 @@
       "rev": "ad7146a",
       "src": "https://github.com/mason-org/mason.nvim"
     },
-    "mini.nvim": {
-      "rev": "89eecd8",
-      "src": "https://github.com/nvim-mini/mini.nvim"
+    "mini.statusline": {
+      "rev": "faa3977",
+      "src": "https://github.com/nvim-mini/mini.statusline"
     },
     "nvim-lspconfig": {
       "rev": "ac98db2",
@@ -29,6 +29,10 @@
       "src": "https://github.com/nvim-treesitter/nvim-treesitter",
       "version": "'main'"
     },
+    "nvim-web-devicons": {
+      "rev": "b8221e4",
+      "src": "https://github.com/nvim-tree/nvim-web-devicons"
+    },
     "oil.nvim": {
       "rev": "200df01",
       "src": "https://github.com/stevearc/oil.nvim"
@@ -37,9 +41,21 @@
       "rev": "cdbfdc8",
       "src": "https://github.com/vague-theme/vague.nvim"
     },
+    "vim-fugitive": {
+      "rev": "61b51c0",
+      "src": "https://github.com/tpope/vim-fugitive"
+    },
+    "vim-repeat": {
+      "rev": "6584602",
+      "src": "https://github.com/tpope/vim-repeat"
+    },
     "vim-sleuth": {
       "rev": "be69bff",
       "src": "https://github.com/tpope/vim-sleuth"
+    },
+    "vim-surround": {
+      "rev": "3d188ed",
+      "src": "https://github.com/tpope/vim-surround"
     }
   }
 }
