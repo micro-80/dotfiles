@@ -1,9 +1,9 @@
 vim.pack.add {
 	'https://github.com/ibhagwan/fzf-lua',
 	'https://github.com/nvim-mini/mini.statusline',
+	'https://github.com/miikanissi/modus-themes.nvim',
 	'https://github.com/nvim-tree/nvim-web-devicons',
 	'https://github.com/stevearc/oil.nvim',
-	'https://github.com/vague-theme/vague.nvim'
 }
 
 -- https://github.com/neovim/neovim/issues/35303
@@ -92,9 +92,9 @@ oil.setup {
 }
 vim.keymap.set('n', '<leader>e', oil.open)
 
-require 'vague'.setup {
-	style = {
-		strings = 'none'
-	}
-}
-vim.cmd 'colorscheme vague'
+require("modus-themes").setup({
+	line_nr_column_background = false,
+	sign_column_background = false,
+	variant = "default"
+})
+vim.cmd([[colorscheme modus_vivendi]])

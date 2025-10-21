@@ -8,6 +8,10 @@
       "rev": "83e4080",
       "src": "https://github.com/ibhagwan/fzf-lua"
     },
+    "gruvbox.nvim": {
+      "rev": "5e0a460",
+      "src": "https://github.com/ellisonleao/gruvbox.nvim"
+    },
     "mason-lspconfig.nvim": {
       "rev": "2304ff6",
       "src": "https://github.com/mason-org/mason-lspconfig.nvim"
@@ -19,6 +23,10 @@
     "mini.statusline": {
       "rev": "faa3977",
       "src": "https://github.com/nvim-mini/mini.statusline"
+    },
+    "modus-themes.nvim": {
+      "rev": "c57c2c5",
+      "src": "https://github.com/miikanissi/modus-themes.nvim"
     },
     "nvim-lspconfig": {
       "rev": "ac98db2",
