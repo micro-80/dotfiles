@@ -1,7 +1,6 @@
 _G.lsp_servers = {
-	'bashls',
+	'efm',
 	'lua_ls',
-	'markdown_oxide'
 }
 
 _G.treesitter_grammars = {

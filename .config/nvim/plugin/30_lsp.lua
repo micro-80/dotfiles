@@ -23,6 +23,25 @@ vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format)
 vim.keymap.set('n', '<leader>r', vim.lsp.buf.rename)
 vim.keymap.set({ 'n', 'i' }, '<C-s>', vim.lsp.buf.signature_help)
 
+local shellcheck = {
+	lintCommand = "shellcheck -f gcc -x -",
+	lintStdin = true,
+	lintFormats = {
+		"%f:%l:%c: %trror: %m",
+		"%f:%l:%c: %tarning: %m",
+		"%f:%l:%c: %tote: %m",
+	},
+}
+
+vim.lsp.config('efm', {
+	filetypes = { 'bash', 'sh', 'zsh' },
+	settings = {
+		bash = { shellcheck },
+		sh = { shellcheck },
+		zsh = { shellcheck },
+	}
+})
+
 vim.lsp.config('lua_ls', {
 	settings = {
 		Lua = {
