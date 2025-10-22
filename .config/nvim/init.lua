@@ -1,32 +1,4 @@
-_G.lsp_servers = {
-	'efm',
-	'lua_ls',
-}
-
-_G.treesitter_grammars = {
-	'bash',
-	'c',
-	'c_sharp',
-	'cpp',
-	'css',
-	'csv',
-	'git_config',
-	'gitcommit',
-	'gitignore',
-	'go',
-	'gomod',
-	'html',
-	'hurl',
-	'java',
-	'json',
-	'lua',
-	'markdown',
-	'python',
-	'sql',
-	'svelte',
-	'toml',
-	'yaml',
-	'rust',
-	'javascript',
-	'typescript'
-}
+require("options")
+require("plugins")
+require("treesitter")
+require("lsp")

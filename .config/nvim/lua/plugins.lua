@@ -1,9 +1,10 @@
 vim.pack.add {
-	'https://github.com/ibhagwan/fzf-lua',
-	'https://github.com/nvim-mini/mini.statusline',
-	'https://github.com/miikanissi/modus-themes.nvim',
-	'https://github.com/nvim-tree/nvim-web-devicons',
-	'https://github.com/stevearc/oil.nvim',
+	'https://github.com/bullets-vim/bullets.vim',
+	'https://github.com/nvim-tree/nvim-web-devicons', -- oil + fzf-lua
+	'https://github.com/tpope/vim-fugitive',
+	'https://github.com/tpope/vim-repeat',
+	'https://github.com/tpope/vim-sleuth',
+	'https://github.com/tpope/vim-surround',
 }
 
 -- https://github.com/neovim/neovim/issues/35303
@@ -33,11 +34,18 @@ vim.api.nvim_create_user_command('PackUpdate', function()
 	vim.pack.update()
 end, {})
 
-
+vim.pack.add({ 'https://github.com/ibhagwan/fzf-lua' })
 local fzf_lua = require 'fzf-lua'
+fzf_lua.setup {
+	keymap = {
+		fzf = {
+			["ctrl-q"] = "select-all+accept"
+		}
+	}
+}
 vim.keymap.set('n', '<C-\\>', fzf_lua.buffers)
 vim.keymap.set('n', '<C-p>', fzf_lua.files)
-vim.keymap.set('n', '<C-q>', fzf_lua.live_grep)
+vim.keymap.set('n', '<C-l>', fzf_lua.live_grep)
 vim.keymap.set('n', '<leader>fd', fzf_lua.diagnostics_document)
 vim.keymap.set('n', '<leader>fw', fzf_lua.diagnostics_workspace)
 vim.keymap.set('n', '<leader>ff', fzf_lua.files)
@@ -75,8 +83,10 @@ local function fzf_lua_tmux_sessionizer()
 end
 vim.keymap.set('n', '<leader>t', fzf_lua_tmux_sessionizer)
 
+vim.pack.add({ 'https://github.com/nvim-mini/mini.statusline' })
 require 'mini.statusline'.setup {}
 
+vim.pack.add({ 'https://github.com/stevearc/oil.nvim' })
 local oil = require 'oil'
 oil.setup {
 	watch_for_changes = true,
@@ -92,6 +102,7 @@ oil.setup {
 }
 vim.keymap.set('n', '<leader>e', oil.open)
 
+vim.pack.add({ 'https://github.com/miikanissi/modus-themes.nvim' })
 require("modus-themes").setup({
 	line_nr_column_background = false,
 	sign_column_background = false,

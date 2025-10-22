@@ -1,13 +1,24 @@
 vim.pack.add {
 	'https://github.com/mason-org/mason.nvim',
-	'https://github.com/mason-org/mason-lspconfig.nvim',
+	'https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim',
 	'https://github.com/neovim/nvim-lspconfig'
 }
 
-local lsp_servers = _G.lsp_servers or {}
+vim.lsp.enable({
+	'efm',
+	'lua_ls'
+})
 require 'mason'.setup()
-require 'mason-lspconfig'.setup { ensure_installed = lsp_servers }
-vim.lsp.enable(lsp_servers)
+require 'mason-tool-installer'.setup({
+	ensure_installed = {
+		-- lsp
+		'efm',
+		'lua-language-server',
+		-- tools
+		'shellcheck'
+	}
+})
+
 vim.api.nvim_create_autocmd('LspAttach', {
 	group = vim.api.nvim_create_augroup('my.lsp', {}),
 	callback = function(args)
@@ -15,13 +26,14 @@ vim.api.nvim_create_autocmd('LspAttach', {
 		if client:supports_method 'textDocument/completion' then
 			vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
 		end
+		if client:supports_method 'textDocument/inlayHint' then
+			vim.lsp.inlay_hint.enable(true)
+		end
 	end,
 })
 
-vim.keymap.set('n', '<leader>la', vim.lsp.buf.code_action)
-vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format)
-vim.keymap.set('n', '<leader>r', vim.lsp.buf.rename)
 vim.keymap.set({ 'n', 'i' }, '<C-s>', vim.lsp.buf.signature_help)
+vim.keymap.set('n', 'gfo', vim.lsp.buf.format)
 
 local shellcheck = {
 	lintCommand = "shellcheck -f gcc -x -",
@@ -45,15 +57,20 @@ vim.lsp.config('efm', {
 vim.lsp.config('lua_ls', {
 	settings = {
 		Lua = {
-			completion = { callSnippet = 'Replace' },
 			runtime = {
 				version = 'LuaJIT',
 			},
-			workspace = {
-				checkThirdParty = false,
-				library = {
-					vim.env.VIMRUNTIME
+			diagnostics = {
+				globals = {
+					'vim',
+					'require'
 				},
+			},
+			workspace = {
+				library = vim.api.nvim_get_runtime_file("", true),
+			},
+			telemetry = {
+				enable = false,
 			},
 		},
 	},
