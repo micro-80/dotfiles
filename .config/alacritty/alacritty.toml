@@ -9,5 +9,5 @@ dynamic_title = true
 option_as_alt = "OnlyLeft"
 
 [font]
-size = 13.0
-normal = { family = "FiraCode Nerd Font Mono", style = "Regular" }
+size = 14.0
+normal = { family = "Iosevka NF", style = "Regular" }
