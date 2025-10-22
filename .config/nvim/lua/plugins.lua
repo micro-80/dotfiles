@@ -36,40 +36,15 @@ end, {})
 
 vim.pack.add { 'https://github.com/ibhagwan/fzf-lua' }
 local fzf_lua = require 'fzf-lua'
-fzf_lua.setup {
-	keymap = {
-		fzf = {
-			['ctrl-q'] = 'select-all+accept'
-		}
-	}
-}
 vim.keymap.set('n', '<C-\\>', fzf_lua.buffers)
 vim.keymap.set('n', '<C-p>', fzf_lua.files)
 vim.keymap.set('n', '<C-l>', fzf_lua.live_grep)
-vim.keymap.set('n', '<leader>fd', fzf_lua.diagnostics_document)
-vim.keymap.set('n', '<leader>fw', fzf_lua.diagnostics_workspace)
-vim.keymap.set('n', '<leader>ff', fzf_lua.files)
-vim.keymap.set('n', '<leader>gbl', fzf_lua.git_blame)
-vim.keymap.set('n', '<leader>gbr', fzf_lua.git_branches)
-vim.keymap.set('n', '<leader>gc', fzf_lua.git_commits)
-vim.keymap.set('n', '<leader>gd', fzf_lua.git_diff)
+vim.keymap.set('n', '<leader>d', fzf_lua.diagnostics_document)
 vim.keymap.set('n', '<leader>gf', fzf_lua.git_files)
-vim.keymap.set('n', '<leader>gh', fzf_lua.git_hunks)
-vim.keymap.set('n', '<leader>gs', fzf_lua.git_stash)
-vim.keymap.set('n', '<leader>fh', fzf_lua.help_tags)
-vim.keymap.set('n', '<leader>fk', fzf_lua.keymaps)
-vim.keymap.set('n', '<leader>fm', fzf_lua.man_pages)
-vim.keymap.set('n', '<leader>fs', fzf_lua.live_grep)
-vim.keymap.set('n', '<leader>fr', fzf_lua.resume)
-
-vim.keymap.set('n', '<leader>la', fzf_lua.lsp_code_actions)
-vim.keymap.set('n', '<leader>lc', fzf_lua.lsp_declarations)
-vim.keymap.set('n', '<leader>ld', fzf_lua.lsp_definitions)
-vim.keymap.set('n', '<leader>li', fzf_lua.lsp_implementations)
-vim.keymap.set('n', '<leader>lr', fzf_lua.lsp_references)
-vim.keymap.set('n', '<leader>ls', fzf_lua.lsp_document_symbols)
-vim.keymap.set('n', '<leader>lt', fzf_lua.lsp_typedefs)
-
+vim.keymap.set('n', '<leader>h', fzf_lua.help_tags)
+vim.keymap.set('n', '<leader>k', fzf_lua.keymaps)
+vim.keymap.set('n', '<leader>m', fzf_lua.man_pages)
+vim.keymap.set('n', '<leader>r', fzf_lua.resume)
 vim.keymap.set('n', 'z=', fzf_lua.spell_suggest)
 
 local function fzf_lua_tmux_sessionizer()
