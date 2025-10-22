@@ -4,12 +4,12 @@ vim.pack.add {
 	'https://github.com/neovim/nvim-lspconfig'
 }
 
-vim.lsp.enable({
+vim.lsp.enable {
 	'efm',
 	'lua_ls'
-})
+}
 require 'mason'.setup()
-require 'mason-tool-installer'.setup({
+require 'mason-tool-installer'.setup {
 	ensure_installed = {
 		-- lsp
 		'efm',
@@ -17,7 +17,7 @@ require 'mason-tool-installer'.setup({
 		-- tools
 		'shellcheck'
 	}
-})
+}
 
 vim.api.nvim_create_autocmd('LspAttach', {
 	group = vim.api.nvim_create_augroup('my.lsp', {}),
@@ -36,12 +36,12 @@ vim.keymap.set({ 'n', 'i' }, '<C-s>', vim.lsp.buf.signature_help)
 vim.keymap.set('n', 'gfo', vim.lsp.buf.format)
 
 local shellcheck = {
-	lintCommand = "shellcheck -f gcc -x -",
+	lintCommand = 'shellcheck -f gcc -x -',
 	lintStdin = true,
 	lintFormats = {
-		"%f:%l:%c: %trror: %m",
-		"%f:%l:%c: %tarning: %m",
-		"%f:%l:%c: %tote: %m",
+		'%f:%l:%c: %trror: %m',
+		'%f:%l:%c: %tarning: %m',
+		'%f:%l:%c: %tote: %m',
 	},
 }
 
@@ -67,7 +67,7 @@ vim.lsp.config('lua_ls', {
 				},
 			},
 			workspace = {
-				library = vim.api.nvim_get_runtime_file("", true),
+				library = vim.api.nvim_get_runtime_file('', true),
 			},
 			telemetry = {
 				enable = false,

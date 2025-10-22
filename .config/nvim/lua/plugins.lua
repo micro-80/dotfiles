@@ -34,12 +34,12 @@ vim.api.nvim_create_user_command('PackUpdate', function()
 	vim.pack.update()
 end, {})
 
-vim.pack.add({ 'https://github.com/ibhagwan/fzf-lua' })
+vim.pack.add { 'https://github.com/ibhagwan/fzf-lua' }
 local fzf_lua = require 'fzf-lua'
 fzf_lua.setup {
 	keymap = {
 		fzf = {
-			["ctrl-q"] = "select-all+accept"
+			['ctrl-q'] = 'select-all+accept'
 		}
 	}
 }
@@ -83,10 +83,10 @@ local function fzf_lua_tmux_sessionizer()
 end
 vim.keymap.set('n', '<leader>t', fzf_lua_tmux_sessionizer)
 
-vim.pack.add({ 'https://github.com/nvim-mini/mini.statusline' })
+vim.pack.add { 'https://github.com/nvim-mini/mini.statusline' }
 require 'mini.statusline'.setup {}
 
-vim.pack.add({ 'https://github.com/stevearc/oil.nvim' })
+vim.pack.add { 'https://github.com/stevearc/oil.nvim' }
 local oil = require 'oil'
 oil.setup {
 	watch_for_changes = true,
@@ -102,10 +102,10 @@ oil.setup {
 }
 vim.keymap.set('n', '<leader>e', oil.open)
 
-vim.pack.add({ 'https://github.com/miikanissi/modus-themes.nvim' })
-require("modus-themes").setup({
+vim.pack.add { 'https://github.com/miikanissi/modus-themes.nvim' }
+require 'modus-themes'.setup {
 	line_nr_column_background = false,
 	sign_column_background = false,
-	variant = "default"
-})
-vim.cmd([[colorscheme modus_vivendi]])
+	variant = 'default'
+}
+vim.cmd [[colorscheme modus_vivendi]]
