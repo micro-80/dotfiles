@@ -77,10 +77,18 @@ oil.setup {
 }
 vim.keymap.set('n', '<leader>e', oil.open)
 
-vim.pack.add { 'https://github.com/miikanissi/modus-themes.nvim' }
-require 'modus-themes'.setup {
-	line_nr_column_background = false,
-	sign_column_background = false,
-	variant = 'default'
-}
-vim.cmd [[colorscheme modus_vivendi]]
+-- vim.pack.add { 'https://github.com/miikanissi/modus-themes.nvim' }
+-- require 'modus-themes'.setup {
+-- 	line_nr_column_background = false,
+-- 	sign_column_background = false,
+-- 	variant = 'default'
+-- }
+-- vim.cmd [[colorscheme modus_vivendi]]
+-- vim.pack.add { 'https://github.com/micro-80/ef-dream.nvim' }
+-- require 'modus-themes'.setup {
+-- 	line_nr_column_background = false,
+-- 	sign_column_background = false,
+-- }
+-- vim.cmd [[colorscheme ef_dream]]
+vim.pack.add { 'https://github.com/micro-80/ef-themes.nvim' }
+vim.cmd.colorscheme("ef-autumn")

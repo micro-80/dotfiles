@@ -4,6 +4,14 @@
       "rev": "1c13e51",
       "src": "https://github.com/bullets-vim/bullets.vim"
     },
+    "ef-dream.nvim": {
+      "rev": "1bd2c0f",
+      "src": "https://github.com/micro-80/ef-dream.nvim"
+    },
+    "ef-themes.nvim": {
+      "rev": "80c7862",
+      "src": "https://github.com/micro-80/ef-themes.nvim"
+    },
     "fzf-lua": {
       "rev": "83e4080",
       "src": "https://github.com/ibhagwan/fzf-lua"
