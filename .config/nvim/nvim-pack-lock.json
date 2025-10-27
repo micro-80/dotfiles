@@ -28,6 +28,18 @@
       "rev": "ad7146a",
       "src": "https://github.com/mason-org/mason.nvim"
     },
+    "mini.completion": {
+      "rev": "3eb90e9",
+      "src": "https://github.com/nvim-mini/mini.completion"
+    },
+    "mini.icons": {
+      "rev": "2847986",
+      "src": "https://github.com/nvim-mini/mini.icons"
+    },
+    "mini.pick": {
+      "rev": "bb764a5",
+      "src": "https://github.com/nvim-mini/mini.pick"
+    },
     "mini.statusline": {
       "rev": "faa3977",
       "src": "https://github.com/nvim-mini/mini.statusline"
@@ -52,6 +64,10 @@
     "oil.nvim": {
       "rev": "200df01",
       "src": "https://github.com/stevearc/oil.nvim"
+    },
+    "snacks.nvim": {
+      "rev": "c952834",
+      "src": "https://github.com/folke/snacks.nvim"
     },
     "vim-fugitive": {
       "rev": "61b51c0",

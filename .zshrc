@@ -27,7 +27,7 @@ autoload -Uz vcs_info
 precmd() {
   vcs_info
   if [[ -n $vcs_info_msg_0_ ]]; then
-    vcs_prompt=" %F{red}${vcs_info_msg_0_}%f"
+    vcs_prompt="%F{red}${vcs_info_msg_0_}%f"
   else
     vcs_prompt=""
   fi

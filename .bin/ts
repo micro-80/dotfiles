@@ -7,14 +7,13 @@ get_options() {
 }
 
 if [[ $# -eq 1 ]]; then
-    if [[ $1 == "--list" ]]; then
-        get_options
-        exit 0
-    fi
-
     selected=$1
 else
-    selected=$(get_options | fzf)
+    if [[ -n $TMUX ]]; then
+        selected=$(get_options | fzf --tmux)
+    else
+        selected=$(get_options | fzf)
+    fi
 fi
 
 if [[ -z $selected ]]; then

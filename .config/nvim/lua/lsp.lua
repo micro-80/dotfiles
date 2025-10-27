@@ -4,9 +4,11 @@ vim.pack.add {
 	'https://github.com/neovim/nvim-lspconfig'
 }
 
+-- https://github.com/neovim/nvim-lspconfig/tree/master/lsp
 vim.lsp.enable {
 	'efm',
-	'lua_ls'
+	'lua_ls',
+	'gopls'
 }
 require 'mason'.setup()
 require 'mason-tool-installer'.setup {
@@ -14,26 +16,25 @@ require 'mason-tool-installer'.setup {
 		-- lsp
 		'efm',
 		'lua-language-server',
+		'gopls',
 		-- tools
 		'shellcheck'
 	}
 }
 
+vim.keymap.set({ 'n', 'i' }, '<C-s>', vim.lsp.buf.signature_help)
+vim.keymap.set('n', 'gfo', vim.lsp.buf.format)
+
 vim.api.nvim_create_autocmd('LspAttach', {
-	group = vim.api.nvim_create_augroup('my.lsp', {}),
 	callback = function(args)
-		local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
-		if client:supports_method 'textDocument/completion' then
-			vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
-		end
-		if client:supports_method 'textDocument/inlayHint' then
-			vim.lsp.inlay_hint.enable(true)
+		local client_id = args.data.client_id
+		local client = assert(vim.lsp.get_client_by_id(client_id))
+
+		if client:supports_method('textDocument/completion') then
+			vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = false })
 		end
 	end,
 })
-
-vim.keymap.set({ 'n', 'i' }, '<C-s>', vim.lsp.buf.signature_help)
-vim.keymap.set('n', 'gfo', vim.lsp.buf.format)
 
 local shellcheck = {
 	lintCommand = 'shellcheck -f gcc -x -',

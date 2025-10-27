@@ -1,25 +1,25 @@
-vim.opt.number = true
+vim.opt.number         = true
 vim.opt.relativenumber = true
-vim.opt.conceallevel = 2
-vim.opt.pumborder = 'single'
-vim.opt.pumheight = 7
-vim.opt.winborder = 'single'
-vim.opt.signcolumn = 'yes:1'
-vim.opt.linebreak = true
-vim.opt.expandtab = false
-vim.opt.tabstop = 4
-vim.opt.shiftwidth = 4
-vim.opt.softtabstop = 4
-vim.opt.foldtext = ''
-vim.opt.foldlevel = 99
-vim.opt.linebreak = true
-vim.opt.breakindent = true
-vim.opt.swapfile = false
-vim.opt.complete = '.,w,b,o,u'
-vim.opt.autocomplete = false
-vim.opt.completeopt = 'menuone,noselect,popup'
+vim.opt.conceallevel   = 2
+vim.opt.autocomplete   = false
+vim.opt.completeopt    = 'menu,preview,fuzzy'
+vim.opt.pumborder      = 'bold'
+vim.opt.pumheight      = 7
+vim.opt.pummaxwidth    = 100
+vim.opt.winborder      = 'single'
+vim.opt.signcolumn     = 'yes:1'
+vim.opt.linebreak      = true
+vim.opt.expandtab      = false
+vim.opt.tabstop        = 4
+vim.opt.shiftwidth     = 4
+vim.opt.softtabstop    = 4
+vim.opt.foldtext       = ''
+vim.opt.foldlevel      = 99
+vim.opt.linebreak      = true
+vim.opt.breakindent    = true
+vim.opt.swapfile       = false
 
-vim.g.mapleader = ' '
+vim.g.mapleader        = ' '
 vim.keymap.set('n', '<A-w>', ':bd<CR>')
 vim.keymap.set('n', '<C-q>', '<cmd>cclose<CR>')
 vim.keymap.set('n', '<C-w>', '<cmd>copen<CR>')

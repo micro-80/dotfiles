@@ -1,6 +1,5 @@
 vim.pack.add {
 	'https://github.com/bullets-vim/bullets.vim',
-	'https://github.com/nvim-tree/nvim-web-devicons', -- oil + fzf-lua
 	'https://github.com/tpope/vim-fugitive',
 	'https://github.com/tpope/vim-repeat',
 	'https://github.com/tpope/vim-sleuth',
@@ -30,33 +29,17 @@ vim.api.nvim_create_user_command('PackClean', function()
 	vim.pack.del(unused_plugins)
 end, {})
 
-vim.api.nvim_create_user_command('PackUpdate', function()
-	vim.pack.update()
-end, {})
+vim.pack.add { 'https://github.com/nvim-mini/mini.icons' }
+require('mini.icons').setup()
 
-vim.pack.add { 'https://github.com/ibhagwan/fzf-lua' }
-local fzf_lua = require 'fzf-lua'
-vim.keymap.set('n', '<C-\\>', fzf_lua.buffers)
-vim.keymap.set('n', '<C-p>', fzf_lua.files)
-vim.keymap.set('n', '<C-l>', fzf_lua.live_grep)
-vim.keymap.set('n', '<leader>d', fzf_lua.diagnostics_document)
-vim.keymap.set('n', '<leader>gf', fzf_lua.git_files)
-vim.keymap.set('n', '<leader>h', fzf_lua.help_tags)
-vim.keymap.set('n', '<leader>k', fzf_lua.keymaps)
-vim.keymap.set('n', '<leader>m', fzf_lua.man_pages)
-vim.keymap.set('n', '<leader>r', fzf_lua.resume)
-vim.keymap.set('n', 'z=', fzf_lua.spell_suggest)
-
-local function fzf_lua_tmux_sessionizer()
-	fzf_lua.fzf_exec('ts --list', {
-		actions = {
-			['default'] = function(selected)
-				vim.fn.system('ts ' .. selected[1])
-			end
-		}
-	})
-end
-vim.keymap.set('n', '<leader>t', fzf_lua_tmux_sessionizer)
+vim.pack.add { 'https://github.com/nvim-mini/mini.pick' } -- for the love of god, please install ripgrep before using!
+require('mini.pick').setup()
+vim.keymap.set('n', ';', function() MiniPick.builtin.files() end)
+vim.keymap.set('n', ',', function() MiniPick.builtin.buffers() end)
+vim.keymap.set('n', '\\', function() MiniPick.builtin.grep_live() end)
+vim.keymap.set('n', '<leader>h', function() MiniPick.builtin.help() end)
+vim.keymap.set('n', '<leader>gf', function() MiniPick.builtin.files({ tool = 'git' }) end)
+vim.keymap.set('n', '<leader>r', function() MiniPick.builtin.resume() end)
 
 vim.pack.add { 'https://github.com/nvim-mini/mini.statusline' }
 require 'mini.statusline'.setup {}
