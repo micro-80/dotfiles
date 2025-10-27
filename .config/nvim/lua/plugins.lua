@@ -1,9 +1,6 @@
 vim.pack.add {
 	'https://github.com/bullets-vim/bullets.vim',
-	'https://github.com/tpope/vim-fugitive',
-	'https://github.com/tpope/vim-repeat',
 	'https://github.com/tpope/vim-sleuth',
-	'https://github.com/tpope/vim-surround',
 }
 
 -- https://github.com/neovim/neovim/issues/35303
@@ -29,10 +26,14 @@ vim.api.nvim_create_user_command('PackClean', function()
 	vim.pack.del(unused_plugins)
 end, {})
 
-vim.pack.add { 'https://github.com/nvim-mini/mini.icons' }
+vim.pack.add { 'https://github.com/nvim-mini/mini.nvim' }
+require('mini.diff').setup()
+require('mini.git').setup()
 require('mini.icons').setup()
+require('mini.notify').setup()
+require 'mini.statusline'.setup()
+require 'mini.surround'.setup()
 
-vim.pack.add { 'https://github.com/nvim-mini/mini.pick' } -- for the love of god, please install ripgrep before using!
 require('mini.pick').setup()
 vim.keymap.set('n', ';', function() MiniPick.builtin.files() end)
 vim.keymap.set('n', ',', function() MiniPick.builtin.buffers() end)
@@ -40,9 +41,6 @@ vim.keymap.set('n', '\\', function() MiniPick.builtin.grep_live() end)
 vim.keymap.set('n', '<leader>h', function() MiniPick.builtin.help() end)
 vim.keymap.set('n', '<leader>gf', function() MiniPick.builtin.files({ tool = 'git' }) end)
 vim.keymap.set('n', '<leader>r', function() MiniPick.builtin.resume() end)
-
-vim.pack.add { 'https://github.com/nvim-mini/mini.statusline' }
-require 'mini.statusline'.setup {}
 
 vim.pack.add { 'https://github.com/stevearc/oil.nvim' }
 local oil = require 'oil'

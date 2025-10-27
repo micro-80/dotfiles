@@ -23,6 +23,7 @@ vim.g.mapleader        = ' '
 vim.keymap.set('n', '<A-w>', ':bd<CR>')
 vim.keymap.set('n', '<C-q>', '<cmd>cclose<CR>')
 vim.keymap.set('n', '<C-w>', '<cmd>copen<CR>')
+vim.keymap.set('n', 'tl', ':set list!<CR>')
 vim.keymap.set({ 'n', 'v', 'x' }, '<leader>d', '"+d<CR>')
 vim.keymap.set({ 'n', 'v', 'x' }, '<leader>y', '"+y<CR>')
 vim.keymap.set('n', 'f', 'gwip')
