@@ -1,26 +1,30 @@
+-- Line Numbers & Cursor
 vim.opt.number         = true
 vim.opt.relativenumber = true
 vim.opt.cursorline     = true
 vim.opt.cursorlineopt  = 'number'
+vim.opt.scrolloff      = 10
+-- Interface & Display
 vim.opt.showmode       = false
-vim.opt.conceallevel   = 2
+vim.opt.conceallevel   = 2       -- Conceal text (for markdown, LaTeX, etc.)
+vim.opt.linebreak      = true    -- Wrap lines at word boundaries
+vim.opt.breakindent    = true    -- Indent wrapped lines
+vim.opt.foldtext       = ''
+vim.opt.foldlevel      = 99      -- Open all folds by default
+vim.opt.signcolumn     = 'yes:1' -- Always show sign column
+-- Popup Menus & Completion
 vim.opt.completeopt    = { "menuone", "menu" }
 vim.opt.pumborder      = 'bold'
 vim.opt.pumheight      = 7
 vim.opt.pummaxwidth    = 100
 vim.opt.winborder      = 'single'
-vim.opt.signcolumn     = 'yes:1'
-vim.opt.linebreak      = true
-vim.opt.expandtab      = false
-vim.opt.tabstop        = 4
-vim.opt.shiftwidth     = 4
-vim.opt.softtabstop    = 4
-vim.opt.foldtext       = ''
-vim.opt.foldlevel      = 99
-vim.opt.linebreak      = true
-vim.opt.breakindent    = true
-vim.opt.swapfile       = false
-vim.opt.scrolloff      = 10
+-- Indentation
+vim.opt.expandtab      = false -- Use tabs instead of spaces
+vim.opt.tabstop        = 4     -- Spaces per tab
+vim.opt.shiftwidth     = 4     -- Indentation width for << and >>
+vim.opt.softtabstop    = 4     -- Spaces for tab in insert mode
+-- Assorted
+vim.opt.swapfile       = false -- Disable swap files
 
 vim.g.showbreak        = '↪'
 vim.g.mapleader        = ' '
