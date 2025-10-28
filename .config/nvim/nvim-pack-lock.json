@@ -8,10 +8,6 @@
       "rev": "80c7862",
       "src": "https://github.com/micro-80/ef-themes.nvim"
     },
-    "mason-tool-installer.nvim": {
-      "rev": "517ef59",
-      "src": "https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim"
-    },
     "mason.nvim": {
       "rev": "ad7146a",
       "src": "https://github.com/mason-org/mason.nvim"
@@ -28,14 +24,6 @@
       "rev": "0606c7a9",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter",
       "version": "'main'"
-    },
-    "oil.nvim": {
-      "rev": "200df01",
-      "src": "https://github.com/stevearc/oil.nvim"
-    },
-    "vim-fugitive": {
-      "rev": "61b51c0",
-      "src": "https://github.com/tpope/vim-fugitive"
     },
     "vim-sleuth": {
       "rev": "be69bff",

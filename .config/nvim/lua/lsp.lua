@@ -1,29 +1,35 @@
 vim.pack.add {
 	'https://github.com/mason-org/mason.nvim',
-	'https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim',
 	'https://github.com/neovim/nvim-lspconfig'
 }
 
--- https://github.com/neovim/nvim-lspconfig/tree/master/lsp
-vim.lsp.enable {
-	'efm',
-	'lua_ls',
-	'gopls'
-}
-require 'mason'.setup()
-require 'mason-tool-installer'.setup {
-	ensure_installed = {
-		-- lsp
-		'efm',
-		'lua-language-server',
-		'gopls',
-		-- tools
-		'shellcheck'
-	}
+local lsp_servers = {
+	clangd = 'clangd',
+	efm = 'efm',
+	lua_ls = 'lua-language-server',
+	gopls = 'gopls',
 }
 
-vim.keymap.set({ 'n', 'i' }, '<C-s>', vim.lsp.buf.signature_help)
-vim.keymap.set('n', 'gfo', vim.lsp.buf.format)
+local tools = {
+	'shellcheck'
+}
+
+vim.lsp.enable(vim.tbl_keys(lsp_servers))
+
+require 'mason'.setup()
+vim.api.nvim_create_user_command("MasonInstallAll", function()
+	local registry = require('mason-registry')
+	local packages = vim.list_extend(vim.tbl_values(lsp_servers), tools)
+	for _, package_name in ipairs(packages) do
+		local package = registry.get_package(package_name)
+		if not package:is_installed() then
+			vim.cmd("MasonInstall " .. package_name)
+		end
+	end
+end, {})
+
+vim.keymap.set({ 'n', 'i' }, '<C-s>', vim.lsp.buf.signature_help, vim.g.keymap_opts)
+vim.keymap.set('n', 'gfo', vim.lsp.buf.format, vim.g.keymap_opts)
 
 vim.api.nvim_create_autocmd('LspAttach', {
 	callback = function(args)
