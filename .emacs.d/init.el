@@ -2,6 +2,9 @@
 (setq backup-inhibited nil)
 (setq create-lockfiles nil)
 
+;; hide M-x commands not relevant for current mode
+;;(read-extended-command-predicate #'command-completion-default-include-p)
+
 (defun flash-mode-line ()
   (invert-face 'mode-line)
   (run-with-timer 0.1 nil #'invert-face 'mode-line))
@@ -24,6 +27,7 @@
   (hl-line-mode))
 (add-hook 'prog-mode-hook 'set-prog-options)
 
+(setq org-agenda-files '("~/Notes/agenda.org"))
 (org-babel-do-load-languages
    'org-babel-load-languages
    '(
@@ -55,6 +59,157 @@
   :ensure nil
   :init
   (which-key-mode))
+
+(require 'package)
+(setopt package-archives
+        '(("gnu" . "https://elpa.gnu.org/packages/")
+          ("nongnu" . "https://elpa.nongnu.org/nongnu/")
+          ("melpa" . "https://melpa.org/packages/")))
+
+(use-package exec-path-from-shell
+  :ensure t
+  :init
+  (when (memq window-system '(mac ns x))
+    (exec-path-from-shell-initialize))
+  )
+
+(use-package cape
+  :ensure t
+  :bind ("C-c p" . cape-prefix-map)
+  )
+
+(use-package consult
+  :ensure t
+  :bind(;; below are minimal bindings based on things I know I use. Look at docs for comprehensive binds.
+	("C-x b" . consult-buffer)
+	("C-x p b" . consult-project-buffer)
+	("M-g g" . consult-goto-line)
+	("M-g M-g" . consult-goto-line)
+	("M-s r" . consult-ripgrep)
+	("M-s G" . consult-git-grep)
+	("M-s l" . consult-line)
+	)
+  :init
+  (setq xref-show-xrefs-function #'consult-xref
+        xref-show-definitions-function #'consult-xref)
+  )
+
+(use-package corfu
+  :ensure t
+  :custom
+  ;; -- EMACS --
+  (tab-always-indent 'complete)
+  (text-mode-ispell-word-completion nil)
+  ;; -- PLUGIN --
+  (corfu-cycle t)
+  :init
+  (global-corfu-mode)
+  (corfu-popupinfo-mode)
+  ;; corfu-quick looks nice, but doesn't seem to work
+  ;;(corfu-quick) 
+  )
+
+(use-package consult-denote
+  :ensure t
+  :bind
+  (("C-c n f" . consult-denote-find)
+   ("C-c n g" . consult-denote-grep))
+  :config
+  (consult-denote-mode 1))
+
+(use-package denote
+  :ensure t
+  :bind
+  (("C-c n n" . denote)
+   ("C-c n f" . my/denote-find-file)
+   ("C-c n R" . denote-rename-file-using-front-matter)
+   ("C-c n r" . denote-rename-file)
+   ("C-c n l" . denote-link)
+   ("C-c n b" . denote-backlinks)
+   ("C-c n d" . denote-dired))
+  :config
+  (setq denote-directory (expand-file-name "~/Notes/Denote"))
+  (denote-rename-buffer-mode 1)
+  )
+
+;; TODO upgrade when 2.0 is out
+(use-package ef-themes
+  :ensure t
+  :config
+  (mapc #'disable-theme custom-enabled-themes)
+  (load-theme 'ef-dream :no-confirm)
+  (ef-themes-select 'ef-dream))
+
+(use-package embark
+  :ensure t
+  :bind
+  (("C-." . embark-act)
+   ("C-;" . embark-dwim)
+   ("C-h B" . embark-bindings)))
+
+(use-package embark-consult
+  :ensure t
+  :hook
+  (embark-collect-mode . consult-preview-at-point-mode))
+
+(use-package magit
+  :ensure t)
+
+(use-package marginalia
+  :ensure t
+  :init
+  (marginalia-mode))
+
+(use-package nerd-icons
+  :ensure t)
+
+(use-package nerd-icons-completion
+  :ensure t
+  :after marginalia
+  :hook (marginalia-mode . nerd-icons-completion-marginalia-setup)
+  :init
+  (nerd-icons-completion-mode))
+
+(use-package nerd-icons-corfu
+  :ensure t
+  :after corfu
+  :config
+  (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
+
+(use-package nerd-icons-dired
+  :ensure t
+  :hook (dired-mode . nerd-icons-dired-mode))
+
+(use-package nov
+  :ensure t
+  :mode
+  ("\\.epub\\'" . nov-mode))
+
+(use-package orderless
+  :ensure t
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-overrides '((file (styles partial-completion))))
+  (completion-category-defaults nil)
+  (completion-pcm-leading-wildcard t))
+
+(use-package verb
+  :ensure t
+  :config
+  (define-key org-mode-map (kbd "C-c C-r") verb-command-map))
+
+(use-package vertico
+  :ensure t
+  :custom
+  ;; -- EMACS --
+  (context-menu-mode t)
+  (enable-recursive-minibuffers t)
+  (minibuffer-prompt-properties
+   '(read-only t cursor-intangible t face minibuffer-prompt))
+  ;; -- PLUGIN --
+  (vertico-cycle t)
+  :init
+  (vertico-mode))
 
 (setq treesit-language-source-alist
    '((bash "https://github.com/tree-sitter/tree-sitter-bash")
@@ -90,129 +245,19 @@
 
 (add-to-list 'auto-mode-alist '("\\.go\\'" . go-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.gomod\\'" . go-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-ts-mode))
 
 (use-package eglot
-  :ensure nil
+  :ensure nil  
   :hook (
 	 (go-ts-mode . eglot-ensure)
 	 )
-  :bind ("M-<tab>" . 'eglot-code-actions)
-  )
-
-(require 'package)
-(setopt package-archives
-        '(("gnu" . "https://elpa.gnu.org/packages/")
-          ("nongnu" . "https://elpa.nongnu.org/nongnu/")
-          ("melpa" . "https://melpa.org/packages/")))
-
-;; TODO - can this be moved?
-(use-package emacs
+  :bind (
+	 ("M-<tab>" . 'eglot-code-actions)
+	 ("C-c i" . 'eglot-inlay-hints-mode)
+	 ("C-c f" . 'eglot-format)
+	 ("C-c r" . 'eglot-rename)
+	 )
   :custom
-  ;; -- CORFU CONFIG --
-  (tab-always-indent 'complete)
-
-  ;; Emacs 30 and newer: Disable Ispell completion function.
-  ;; Try `cape-dict' as an alternative.
-  (text-mode-ispell-word-completion nil)
-
-  ;; Hide commands in M-x which do not apply to the current mode.  Corfu
-  ;; commands are hidden, since they are not used via M-x. This setting is
-  ;; useful beyond Corfu.
-  (read-extended-command-predicate #'command-completion-default-include-p)
-
-  ;; -- VERTIGO CONFIG --
-  (context-menu-mode t)
-  (enable-recursive-minibuffers t)
-  ;; Hide commands in M-x which do not work in the current mode.  Vertico
-  ;; commands are hidden in normal buffers. This setting is useful beyond
-  ;; Vertico.
-  (read-extended-command-predicate #'command-completion-default-include-p)
-  ;; Do not allow the cursor in the minibuffer prompt
-  (minibuffer-prompt-properties
-   '(read-only t cursor-intangible t face minibuffer-prompt))
+  (eglot-code-action-indicator "")
   )
-
-(use-package exec-path-from-shell
-  :ensure t
-  :init
-  (when (memq window-system '(mac ns x))
-    (exec-path-from-shell-initialize))
-  )
-
-(use-package cape
-  :ensure t
-  :bind ("C-c p" . cape-prefix-map)
-  )
-
-(use-package consult
-  :ensure t
-  :bind(;; below are minimal bindings based on things I know I use. Look at docs for comprehensive binds.
-	("C-x b" . consult-buffer)
-	("C-x p b" . consult-project-buffer)
-	("M-g g" . consult-goto-line)
-	("M-g M-g" . consult-goto-line)
-	("M-s r" . consult-ripgrep)
-	("M-s G" . consult-git-grep)
-	("M-s l" . consult-line)
-	)
-  :init
-  (setq xref-show-xrefs-function #'consult-xref
-        xref-show-definitions-function #'consult-xref)
-  )
-
-(use-package corfu
-  :ensure t
-  :custom
-  (corfu-cycle t)
-  :init
-  (global-corfu-mode)
-  (corfu-popupinfo-mode)
-  ;; corfu-quick looks nice, but doesn't seem to work
-  ;;(corfu-quick) 
-  )
-
-;; TODO: change when new version comes out
-(use-package ef-themes
-  :ensure t
-  :config
-  (setq ef-themes-mixed-fonts t)
-  (mapc #'disable-theme custom-enabled-themes)
-  (ef-themes-select 'ef-dream))
-
-(use-package embark
-  :ensure t
-  :bind
-  (("C-." . embark-act)
-   ("C-;" . embark-dwim)
-   ("C-h B" . embark-bindings)))
-
-(use-package embark-consult
-  :ensure t
-  :hook
-  (embark-collect-mode . consult-preview-at-point-mode))
-
-(use-package kind-icon
-  :ensure t
-  :after corfu
-  :config
-  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
-
-(use-package marginalia
-  :ensure t
-  :init
-  (marginalia-mode))
-
-(use-package orderless
-  :ensure t
-  :custom
-  (completion-styles '(orderless basic))
-  (completion-category-overrides '((file (styles partial-completion))))
-  (completion-category-defaults nil)
-  (completion-pcm-leading-wildcard t))
-
-(use-package vertico
-  :ensure t
-  :custom
-  (vertico-cycle t)
-  :init
-  (vertico-mode))
