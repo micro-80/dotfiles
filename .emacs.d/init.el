@@ -5,11 +5,6 @@
 ;; hide M-x commands not relevant for current mode
 ;;(read-extended-command-predicate #'command-completion-default-include-p)
 
-(defun flash-mode-line ()
-  (invert-face 'mode-line)
-  (run-with-timer 0.1 nil #'invert-face 'mode-line))
-(setq ring-bell-function #'flash-mode-line)
-
 (let ((mono-spaced-font "JetBrainsMono NF")
       (proportionately-spaced-font "Sans"))
   (set-face-attribute 'default nil :family mono-spaced-font :height 140)
@@ -27,13 +22,16 @@
   (hl-line-mode))
 (add-hook 'prog-mode-hook 'set-prog-options)
 
-(setq org-agenda-files '("~/Notes/agenda.org"))
-(org-babel-do-load-languages
-   'org-babel-load-languages
-   '(
-     (shell . t)
-     )
-   )
+(setq browse-url-browser-function 'eww-browse-url)
+(setq browse-url-chrome-program "/usr/bin/open")
+(setq browse-url-chrome-arguments '("-a" "Google Chrome"))
+
+(defun my/open-link-in-chrome ()
+  "Open link below cursor in Chrome."
+  (interactive)
+  (let ((url (or (thing-at-point 'url t)
+                 (read-string "URL: "))))
+    (browse-url-chrome url)))
 
 (use-package dired
   :ensure nil
@@ -50,6 +48,28 @@
 	 )
   )
 
+(use-package flyspell
+  :ensure nil
+  :hook ((git-commit-mode . flyspell-mode)
+	 (text-mode . flyspell-mode)
+	 (org-mode . flyspell-mode))
+  :config
+  (setq ispell-program-name "aspell")
+  )
+
+(use-package org
+  :ensure nil
+  :config
+  (setq org-agenda-files '("~/Notes/agenda.org")
+	org-checkbox-hierarchical-statistics t
+	org-enforce-todo-dependencies t)
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '(
+     (shell . t)
+     )
+   ))
+
 (use-package savehist
   :ensure nil
   :init
@@ -65,6 +85,14 @@
         '(("gnu" . "https://elpa.gnu.org/packages/")
           ("nongnu" . "https://elpa.nongnu.org/nongnu/")
           ("melpa" . "https://melpa.org/packages/")))
+
+(use-package avy
+  :ensure t
+  :bind (
+	 ("C-:" . avy-goto-char)
+	 ("C-'" . avy-goto-word-1)
+	 )
+  )
 
 (use-package exec-path-from-shell
   :ensure t
@@ -119,9 +147,10 @@
 
 (use-package denote
   :ensure t
+  :commands denote-article
   :bind
-  (("C-c n n" . denote)
-   ("C-c n f" . my/denote-find-file)
+  (("C-c n a" . denote-article)
+   ("C-c n n" . denote)
    ("C-c n R" . denote-rename-file-using-front-matter)
    ("C-c n r" . denote-rename-file)
    ("C-c n l" . denote-link)
@@ -130,6 +159,50 @@
   :config
   (setq denote-directory (expand-file-name "~/Notes/Denote"))
   (denote-rename-buffer-mode 1)
+
+  ;; denote-article - one day make this into a plugin
+  (defun denote-article (url)
+    "Create a Denote note for a webpage URL."
+    (interactive "sEnter URL: ")
+    (require 'url-parse)
+    (require 'denote)
+    (let* ((url-parsed (url-generic-parse-url url))
+           (host (url-host url-parsed))
+           (title (get-page-title url))
+           (keywords (list (format "site-%s" host))))
+      ;; store values for hook to use
+      (setq denote-last-url url
+            denote-last-title title)
+      (denote title keywords)))
+
+  (defvar denote-last-url nil
+    "Holds the URL for the most recent Denote-created note.")
+
+  (defvar denote-last-title nil
+    "Holds the title for the most recent Denote-created note.")
+
+  (defun get-page-title (url)
+    "Retrieve the <title> of a web page at URL."
+    (let ((title))
+      (with-current-buffer (url-retrieve-synchronously url)
+	(goto-char (point-min))
+	(when (re-search-forward "<title>\\([^<]*\\)</title>" nil t 1)
+          (setq title (string-trim (match-string 1)))))
+      title))
+
+  (defun denote-insert-url-link ()
+    "Insert an Org link to the source URL at the end of the new note."
+    (when (and denote-last-url denote-last-title)
+      (save-excursion
+	(goto-char (point-max))
+	(insert (format "[[%s][%s]]\n\n"
+			denote-last-url
+			denote-last-title)))
+      (setq denote-last-url nil
+            denote-last-title nil))
+    (goto-char (point-max)))
+
+  (add-hook 'denote-after-new-note-hook #'denote-insert-url-link)
   )
 
 ;; TODO upgrade when 2.0 is out
@@ -253,7 +326,7 @@
 	 (go-ts-mode . eglot-ensure)
 	 )
   :bind (
-	 ("M-<tab>" . 'eglot-code-actions)
+	 ("C-c a" . 'eglot-code-actions)
 	 ("C-c i" . 'eglot-inlay-hints-mode)
 	 ("C-c f" . 'eglot-format)
 	 ("C-c r" . 'eglot-rename)
