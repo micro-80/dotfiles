@@ -6,7 +6,7 @@
 ;; hide M-x commands not relevant for current mode
 ;;(read-extended-command-predicate #'command-completion-default-include-p)
 
-(let ((mono-spaced-font "JetBrainsMono NF")
+(let ((mono-spaced-font "Iosevka NF")
       (proportionately-spaced-font "Sans"))
   (set-face-attribute 'default nil :family mono-spaced-font :height 140)
   (set-face-attribute 'fixed-pitch nil :family mono-spaced-font :height 1.0)
@@ -61,9 +61,10 @@
 (use-package org
   :ensure nil
   :config
-  (setq org-agenda-files '("~/Notes/agenda.org")
+  (setq org-agenda-files (append '("~/Notes/agenda.org") (file-expand-wildcards "~/Notes/Denote/journal/*.org"))
 	org-checkbox-hierarchical-statistics t
-	org-enforce-todo-dependencies t)
+	org-enforce-todo-dependencies t
+	org-todo-keywords '((sequence "TODO" "IN PROGRESS" "DONE")))
   (org-babel-do-load-languages
    'org-babel-load-languages
    '(
@@ -109,8 +110,8 @@
 
 (use-package consult
   :ensure t
-  :bind(;; below are minimal bindings based on things I know I use. Look at docs for comprehensive binds.
-	("C-x b" . consult-buffer)
+  ;; below are minimal bindings based on things I know I use. Look at docs for comprehensive binds.
+  :bind(("C-x b" . consult-buffer)
 	("C-x p b" . consult-project-buffer)
 	("M-g g" . consult-goto-line)
 	("M-g M-g" . consult-goto-line)
@@ -135,7 +136,7 @@
   (global-corfu-mode)
   (corfu-popupinfo-mode)
   ;; corfu-quick looks nice, but doesn't seem to work
-  ;;(corfu-quick) 
+  ;;(corfu-quick)
   )
 
 (use-package consult-denote
@@ -348,7 +349,7 @@
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-ts-mode))
 
 (use-package eglot
-  :ensure nil  
+  :ensure nil
   :hook (
 	 (go-ts-mode . eglot-ensure)
 	 )
