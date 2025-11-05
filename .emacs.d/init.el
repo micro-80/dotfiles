@@ -1,5 +1,6 @@
+;; -*- lexical-binding: t; no-byte-compile: t -*-
+
 (setq make-backup-files nil)
-(setq backup-inhibited nil)
 (setq create-lockfiles nil)
 
 ;; hide M-x commands not relevant for current mode
@@ -205,6 +206,16 @@
   (add-hook 'denote-after-new-note-hook #'denote-insert-url-link)
   )
 
+(use-package denote-journal
+  :ensure t
+  :bind ("C-c n j" . denote-journal-new-or-existing-entry)
+  :config
+  (setq denote-journal-directory
+        (expand-file-name "journal" denote-directory))
+  (setq denote-journal-keyword "journal")
+  (setq denote-journal-interval "weekly")
+  (setq denote-journal-title-format "Week %V - %Y"))
+
 ;; TODO upgrade when 2.0 is out
 (use-package ef-themes
   :ensure t
@@ -265,6 +276,22 @@
   (completion-category-overrides '((file (styles partial-completion))))
   (completion-category-defaults nil)
   (completion-pcm-leading-wildcard t))
+
+(use-package tempel
+  :ensure t
+  :bind (("M-+" . tempel-complete)
+         ("M-*" . tempel-insert))
+  :custom
+  (tempel-trigger-prefix "<")
+  :init
+  (defun tempel-setup-capf ()
+    (setq-local completion-at-point-functions
+                (cons #'tempel-complete
+                      completion-at-point-functions)))
+  (add-hook 'conf-mode-hook 'tempel-setup-capf)
+  (add-hook 'prog-mode-hook 'tempel-setup-capf)
+  (add-hook 'text-mode-hook 'tempel-setup-capf)
+)
 
 (use-package verb
   :ensure t

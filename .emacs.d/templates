@@ -1,0 +1,11 @@
+;; -*- mode: lisp-data; outline-regexp: "[a-z]" -*-
+
+fundamental-mode
+
+(today (format-time-string "%Y-%m-%d")
+       :ann "Today's date"
+       :doc "Insert today's date")
+       
+(today2 (format-time-string "%Y-%m-%d")
+       :ann "Today's date"
+       :doc "Insert today's date")
