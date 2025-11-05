@@ -1,4 +1,5 @@
 *
+!DEPENDENCIES.org
 !early-init.el
 !init.el
 !templates.el

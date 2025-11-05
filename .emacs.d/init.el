@@ -55,7 +55,8 @@
 	 (text-mode . flyspell-mode)
 	 (org-mode . flyspell-mode))
   :config
-  (setq ispell-program-name "aspell")
+  (setq ispell-local-dictionary "en_GB-ise"
+	ispell-program-name "aspell")
   )
 
 (use-package org
