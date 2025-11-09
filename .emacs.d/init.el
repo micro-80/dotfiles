@@ -1,10 +1,9 @@
 ;; -*- lexical-binding: t; no-byte-compile: t -*-
 
-(setq make-backup-files nil)
-(setq create-lockfiles nil)
-
-;; hide M-x commands not relevant for current mode
-;;(read-extended-command-predicate #'command-completion-default-include-p)
+(setq make-backup-files nil
+      backup-inhibited t
+      auto-save-default nil
+      create-lockfiles nil)
 
 (let ((mono-spaced-font "Iosevka NF")
       (proportionately-spaced-font "Sans"))
@@ -33,6 +32,11 @@
   (let ((url (or (thing-at-point 'url t)
                  (read-string "URL: "))))
     (browse-url-chrome url)))
+
+(defun my/kill-other-buffers ()
+  "Kill all other buffers."
+  (interactive)
+  (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
 
 (use-package dired
   :ensure nil
@@ -65,13 +69,22 @@
   (setq org-agenda-files (append '("~/Notes/agenda.org") (file-expand-wildcards "~/Notes/Denote/journal/*.org"))
 	org-checkbox-hierarchical-statistics t
 	org-enforce-todo-dependencies t
+	org-hide-emphasis-markers t
+	org-hide-leading-stars t
+	org-startup-indented t
 	org-todo-keywords '((sequence "TODO" "IN PROGRESS" "DONE")))
+  (font-lock-add-keywords
+   'org-mode
+   '(("^ *\\([-*]\\) "
+      (0 (prog1 ()
+           (compose-region (match-beginning 1) (match-end 1) "•"))))))
   (org-babel-do-load-languages
    'org-babel-load-languages
    '(
      (shell . t)
      )
-   ))
+   )
+  )
 
 (use-package savehist
   :ensure nil
@@ -164,14 +177,15 @@
   (denote-rename-buffer-mode 1)
 
   ;; denote-article - one day make this into a plugin
-  (defun denote-article (url)
-    "Create a Denote note for a webpage URL."
-    (interactive "sEnter URL: ")
+  (defun denote-article ()
+    "Create a Denote note for a webpage URL in the clipboard."
+    (interactive)
     (require 'url-parse)
     (require 'denote)
-    (let* ((url-parsed (url-generic-parse-url url))
+    (let* ((url (current-kill 0))
+	   (url-parsed (url-generic-parse-url url))
            (host (url-host url-parsed))
-           (title (get-page-title url))
+           (title (org-cliplink-retrieve-title-synchronously url))
            (keywords (list (format "site-%s" host))))
       ;; store values for hook to use
       (setq denote-last-url url
@@ -183,15 +197,6 @@
 
   (defvar denote-last-title nil
     "Holds the title for the most recent Denote-created note.")
-
-  (defun get-page-title (url)
-    "Retrieve the <title> of a web page at URL."
-    (let ((title))
-      (with-current-buffer (url-retrieve-synchronously url)
-	(goto-char (point-min))
-	(when (re-search-forward "<title>\\([^<]*\\)</title>" nil t 1)
-          (setq title (string-trim (match-string 1)))))
-      title))
 
   (defun denote-insert-url-link ()
     "Insert an Org link to the source URL at the end of the new note."
@@ -218,13 +223,16 @@
   (setq denote-journal-interval "weekly")
   (setq denote-journal-title-format "Week %V - %Y"))
 
-;; TODO upgrade when 2.0 is out
 (use-package ef-themes
   :ensure t
+  :init
+  (ef-themes-take-over-modus-themes-mode 1)
   :config
-  (mapc #'disable-theme custom-enabled-themes)
-  (load-theme 'ef-dream :no-confirm)
-  (ef-themes-select 'ef-dream))
+  ;; All customisations here.
+  (setq modus-themes-mixed-fonts t)
+  (setq modus-themes-bold-constructs t)
+  (setq modus-themes-italic-constructs t)
+  (modus-themes-load-theme 'ef-dream))
 
 (use-package embark
   :ensure t
@@ -271,6 +279,12 @@
   :mode
   ("\\.epub\\'" . nov-mode))
 
+(use-package olivetti
+  :ensure t
+  :config
+  (setq-default olivetti-body-width 0.5)
+  (setq olivetti-minimum-body-width 80))
+
 (use-package orderless
   :ensure t
   :custom
@@ -278,6 +292,13 @@
   (completion-category-overrides '((file (styles partial-completion))))
   (completion-category-defaults nil)
   (completion-pcm-leading-wildcard t))
+
+(use-package org-cliplink
+  :ensure t)
+
+(use-package pdf-tools
+  :ensure t
+  :mode ("\\.pdf\\'" . pdf-tools-install))
 
 (use-package tempel
   :ensure t
