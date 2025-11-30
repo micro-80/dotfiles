@@ -28,5 +28,10 @@ vim.keymap.set('n', '<leader>h', function() MiniPick.builtin.help() end, vim.g.k
 vim.keymap.set('n', '<leader>gf', function() MiniPick.builtin.files({ tool = 'git' }) end, vim.g.keymap_opts)
 vim.keymap.set('n', '<leader>r', function() MiniPick.builtin.resume() end, vim.g.keymap_opts)
 
-vim.pack.add { 'https://github.com/micro-80/ef-themes.nvim' }
-vim.cmd.colorscheme("ef-autumn")
+vim.pack.add { 'https://github.com/vague-theme/vague.nvim' }
+require 'vague'.setup({
+	style = {
+		strings = "none"
+	};
+})
+vim.cmd.colorscheme("vague")

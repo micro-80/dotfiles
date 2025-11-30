@@ -25,6 +25,10 @@
       "src": "https://github.com/nvim-treesitter/nvim-treesitter",
       "version": "'main'"
     },
+    "vague.nvim": {
+      "rev": "5689afd",
+      "src": "https://github.com/vague-theme/vague.nvim"
+    },
     "vim-sleuth": {
       "rev": "be69bff",
       "src": "https://github.com/tpope/vim-sleuth"

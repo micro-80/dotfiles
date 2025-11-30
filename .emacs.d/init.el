@@ -9,7 +9,7 @@
       (proportionately-spaced-font "Sans"))
   (set-face-attribute 'default nil :family mono-spaced-font :height 140)
   (set-face-attribute 'fixed-pitch nil :family mono-spaced-font :height 1.0)
-  (set-face-attribute 'variable-pitch nil :family proportionately-spaced-font :height 1.0))
+  (set-face-attribute 'variable-pitch nil :family "Arial" :height 140))
 
 (setq mac-option-key-is-meta t)
 (setq mac-right-option-modifier nil)
@@ -73,11 +73,6 @@
 	org-hide-leading-stars t
 	org-startup-indented t
 	org-todo-keywords '((sequence "TODO" "IN PROGRESS" "DONE")))
-  (font-lock-add-keywords
-   'org-mode
-   '(("^ *\\([-*]\\) "
-      (0 (prog1 ()
-           (compose-region (match-beginning 1) (match-end 1) "•"))))))
   (org-babel-do-load-languages
    'org-babel-load-languages
    '(
@@ -105,8 +100,8 @@
 (use-package avy
   :ensure t
   :bind (
-	 ("C-:" . avy-goto-char)
 	 ("C-'" . avy-goto-word-1)
+	 ("C-\"" . avy-goto-char)
 	 )
   )
 
@@ -140,6 +135,7 @@
 
 (use-package corfu
   :ensure t
+  :bind ("C-q" . corfu-quick-insert)
   :custom
   ;; -- EMACS --
   (tab-always-indent 'complete)
@@ -149,8 +145,6 @@
   :init
   (global-corfu-mode)
   (corfu-popupinfo-mode)
-  ;; corfu-quick looks nice, but doesn't seem to work
-  ;;(corfu-quick)
   )
 
 (use-package consult-denote
@@ -223,16 +217,39 @@
   (setq denote-journal-interval "weekly")
   (setq denote-journal-title-format "Week %V - %Y"))
 
+(use-package eat
+  :ensure t
+  :after project
+  :bind (:map project-prefix-map
+              ("t" . eat-project)
+	      ("T" . eat-project-other-window))
+  :init
+  (add-to-list 'project-switch-commands '(eat-project "Eat terminal") t)
+  (add-to-list 'project-switch-commands '(eat-project-other-window "Eat terminal other window") t)
+  (add-to-list 'project-kill-buffer-conditions '(major-mode . eat-mode))
+  :custom
+  (process-adaptive-read-buffering nil)
+  (eat-kill-buffer-on-exit t)
+  (eat-term-name "xterm-256color"))
+
 (use-package ef-themes
   :ensure t
   :init
   (ef-themes-take-over-modus-themes-mode 1)
   :config
-  ;; All customisations here.
-  (setq modus-themes-mixed-fonts t)
-  (setq modus-themes-bold-constructs t)
-  (setq modus-themes-italic-constructs t)
-  (modus-themes-load-theme 'ef-dream))
+  (setq modus-themes-mixed-fonts t
+        modus-themes-italic-constructs t
+        modus-themes-bold-constructs t
+	modus-themes-scale-headings t
+	modus-themes-headings
+	'((1 . (semibold 1.4))
+          (2 . (semibold 1.3))
+          (3 . (semibold 1.2))
+          (t . (semibold 1.1)))
+        modus-themes-completions '((t . (bold)))
+        modus-themes-prompts '(bold))
+  
+  (modus-themes-load-theme 'ef-autumn))
 
 (use-package embark
   :ensure t
@@ -282,7 +299,8 @@
 (use-package olivetti
   :ensure t
   :config
-  (setq-default olivetti-body-width 0.5)
+  (setq-default olivetti-body-width 0.6)
+  (setq olivetti-style 'fancy)
   (setq olivetti-minimum-body-width 80))
 
 (use-package orderless
@@ -304,13 +322,12 @@
   :ensure t
   :bind (("M-+" . tempel-complete)
          ("M-*" . tempel-insert))
-  :custom
-  (tempel-trigger-prefix "<")
   :init
   (defun tempel-setup-capf ()
     (setq-local completion-at-point-functions
-                (cons #'tempel-complete
-                      completion-at-point-functions)))
+                (cons #'tempel-expand completion-at-point-functions))
+  )
+
   (add-hook 'conf-mode-hook 'tempel-setup-capf)
   (add-hook 'prog-mode-hook 'tempel-setup-capf)
   (add-hook 'text-mode-hook 'tempel-setup-capf)

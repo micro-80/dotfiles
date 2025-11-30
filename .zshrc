@@ -36,5 +36,8 @@ precmd() {
 setopt PROMPT_SUBST
 PROMPT='%F{green}%n@%m%f:%F{blue}%~%f${vcs_prompt}$ '
 
+[ -n "$EAT_SHELL_INTEGRATION_DIR" ] && \
+  source "$EAT_SHELL_INTEGRATION_DIR/zsh"
+
 source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
