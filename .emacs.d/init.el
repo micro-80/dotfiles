@@ -1,5 +1,16 @@
 ;; -*- lexical-binding: t; no-byte-compile: t -*-
 
+(defun set-prog-options ()
+  (display-line-numbers-mode)
+  (hl-line-mode))
+
+(defun my/open-link-in-chrome ()
+  "Open link below cursor in Chrome."
+  (interactive)
+  (let ((url (or (thing-at-point 'url t)
+                 (read-string "URL: "))))
+    (browse-url-chrome url)))
+
 (setq make-backup-files nil
       backup-inhibited t
       auto-save-default nil
@@ -17,79 +28,38 @@
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file :noerror)
 
-(defun set-prog-options ()
-  (display-line-numbers-mode)
-  (hl-line-mode))
 (add-hook 'prog-mode-hook 'set-prog-options)
+(add-hook 'dired-after-readin-hook 'hl-line-mode)
+(setq dired-dwim-target t)
 
 (setq browse-url-browser-function 'eww-browse-url)
 (setq browse-url-chrome-program "/usr/bin/open")
 (setq browse-url-chrome-arguments '("-a" "Google Chrome"))
 
-(defun my/open-link-in-chrome ()
-  "Open link below cursor in Chrome."
-  (interactive)
-  (let ((url (or (thing-at-point 'url t)
-                 (read-string "URL: "))))
-    (browse-url-chrome url)))
+(setq ispell-local-dictionary "en_GB-ise"
+      ispell-program-name "aspell")
+(global-set-key (kbd "M-n") 'flymake-goto-next-error)
+(global-set-key (kbd "M-p") 'flymake-goto-prev-error)
+(add-hook 'git-commit-mode 'flyspell-mode)
+(add-hook 'text-mode 'flyspell-mode)
+(add-hook 'org-mode 'flyspell-mode)
 
-(defun my/kill-other-buffers ()
-  "Kill all other buffers."
-  (interactive)
-  (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
-
-(use-package dired
-  :ensure nil
-  :commands (dired)
-  :hook (dired-mode . hl-line-mode)
-  :config
-  (setq dired-dwim-target t))
-
-(use-package flymake
-  :ensure nil
-  :bind (
-	 ("M-n" . 'flymake-goto-next-error)
-	 ("M-p" . 'flymake-goto-prev-error)
-	 )
-  )
-
-(use-package flyspell
-  :ensure nil
-  :hook ((git-commit-mode . flyspell-mode)
-	 (text-mode . flyspell-mode)
-	 (org-mode . flyspell-mode))
-  :config
-  (setq ispell-local-dictionary "en_GB-ise"
-	ispell-program-name "aspell")
-  )
-
-(use-package org
-  :ensure nil
-  :config
-  (setq org-agenda-files (append '("~/Notes/agenda.org") (file-expand-wildcards "~/Notes/Denote/journal/*.org"))
-	org-checkbox-hierarchical-statistics t
-	org-enforce-todo-dependencies t
-	org-hide-emphasis-markers t
-	org-hide-leading-stars t
-	org-startup-indented t
-	org-todo-keywords '((sequence "TODO" "IN PROGRESS" "DONE")))
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '(
-     (shell . t)
-     )
+(setq org-agenda-files (append '("~/Notes/agenda.org") (file-expand-wildcards "~/Notes/Denote/journal/*.org"))
+      org-checkbox-hierarchical-statistics t
+      org-enforce-todo-dependencies t
+      org-hide-emphasis-markers t
+      org-hide-leading-stars t
+      org-startup-indented t
+      org-todo-keywords '((sequence "TODO" "IN PROGRESS" "DONE")))
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '(
+   (shell . t)
    )
-  )
+ )
 
-(use-package savehist
-  :ensure nil
-  :init
-  (savehist-mode))
-
-(use-package which-key
-  :ensure nil
-  :init
-  (which-key-mode))
+(savehist-mode)
+(which-key-mode)
 
 (require 'package)
 (setopt package-archives
@@ -102,6 +72,7 @@
   :bind (
 	 ("C-'" . avy-goto-word-1)
 	 ("C-\"" . avy-goto-char)
+	 ("M-g M-g" . avy-goto-line)
 	 )
   )
 
@@ -123,7 +94,6 @@
   :bind(("C-x b" . consult-buffer)
 	("C-x p b" . consult-project-buffer)
 	("M-g g" . consult-goto-line)
-	("M-g M-g" . consult-goto-line)
 	("M-s r" . consult-ripgrep)
 	("M-s G" . consult-git-grep)
 	("M-s l" . consult-line)
@@ -169,42 +139,6 @@
   :config
   (setq denote-directory (expand-file-name "~/Notes/Denote"))
   (denote-rename-buffer-mode 1)
-
-  ;; denote-article - one day make this into a plugin
-  (defun denote-article ()
-    "Create a Denote note for a webpage URL in the clipboard."
-    (interactive)
-    (require 'url-parse)
-    (require 'denote)
-    (let* ((url (current-kill 0))
-	   (url-parsed (url-generic-parse-url url))
-           (host (url-host url-parsed))
-           (title (org-cliplink-retrieve-title-synchronously url))
-           (keywords (list (format "site-%s" host))))
-      ;; store values for hook to use
-      (setq denote-last-url url
-            denote-last-title title)
-      (denote title keywords)))
-
-  (defvar denote-last-url nil
-    "Holds the URL for the most recent Denote-created note.")
-
-  (defvar denote-last-title nil
-    "Holds the title for the most recent Denote-created note.")
-
-  (defun denote-insert-url-link ()
-    "Insert an Org link to the source URL at the end of the new note."
-    (when (and denote-last-url denote-last-title)
-      (save-excursion
-	(goto-char (point-max))
-	(insert (format "[[%s][%s]]\n\n"
-			denote-last-url
-			denote-last-title)))
-      (setq denote-last-url nil
-            denote-last-title nil))
-    (goto-char (point-max)))
-
-  (add-hook 'denote-after-new-note-hook #'denote-insert-url-link)
   )
 
 (use-package denote-journal
@@ -247,8 +181,7 @@
           (3 . (semibold 1.2))
           (t . (semibold 1.1)))
         modus-themes-completions '((t . (bold)))
-        modus-themes-prompts '(bold))
-  
+        modus-themes-prompts '(bold))  
   (modus-themes-load-theme 'ef-autumn))
 
 (use-package embark
@@ -317,21 +250,6 @@
 (use-package pdf-tools
   :ensure t
   :mode ("\\.pdf\\'" . pdf-tools-install))
-
-(use-package tempel
-  :ensure t
-  :bind (("M-+" . tempel-complete)
-         ("M-*" . tempel-insert))
-  :init
-  (defun tempel-setup-capf ()
-    (setq-local completion-at-point-functions
-                (cons #'tempel-expand completion-at-point-functions))
-  )
-
-  (add-hook 'conf-mode-hook 'tempel-setup-capf)
-  (add-hook 'prog-mode-hook 'tempel-setup-capf)
-  (add-hook 'text-mode-hook 'tempel-setup-capf)
-  )
 
 (use-package verb
   :ensure t
