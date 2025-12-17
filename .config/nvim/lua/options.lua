@@ -13,7 +13,7 @@ vim.opt.foldtext       = ''
 vim.opt.foldlevel      = 99      -- Open all folds by default
 vim.opt.signcolumn     = 'yes:1' -- Always show sign column
 -- Popup Menus & Completion
-vim.opt.completeopt    = { "menuone", "menu" }
+-- vim.opt.completeopt    = { "menuone", "menu" }
 vim.opt.pumborder      = 'bold'
 vim.opt.pumheight      = 7
 vim.opt.pummaxwidth    = 100

@@ -13,6 +13,7 @@ vim.api.nvim_create_user_command('PackClean', function()
 end, {})
 
 vim.pack.add { 'https://github.com/nvim-mini/mini.nvim' }
+require 'mini.completion'.setup()
 require 'mini.diff'.setup()
 require 'mini.git'.setup()
 require 'mini.icons'.setup()
