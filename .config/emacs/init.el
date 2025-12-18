@@ -4,7 +4,10 @@
 (setq inhibit-startup-screen t)
 
 (icomplete-vertical-mode 1)
-(setq completion-styles '(substring basic partial-completion emacs22)
+(setq completion-styles '(basic flex)
+      completions-format 'one-column
+      completions-sort 'historical
+      completions-max-height 30
       icomplete-scroll t
       ;; ignore case in icomplete
       completion-ignore-case t
@@ -42,11 +45,12 @@
       modus-themes-italic-constructs t
       modus-themes-bold-constructs nil
       modus-themes-mixed-fonts t)
-(load-theme 'modus-vivendi-tinted)
+(load-theme 'modus-operandi)
 
 (setq org-startup-indented t)
 
-(add-hook 'prog-mode-hook 'display-line-numbers-mode)
+(add-hook 'prog-mode-hook (lambda() (display-line-numbers-mode 1)
+				     (completion-preview-mode 1)))
 
 (setopt use-short-answers t)
 (setq ns-option-modifier 'meta
