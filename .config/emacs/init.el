@@ -3,17 +3,6 @@
 
 (setq inhibit-startup-screen t)
 
-(icomplete-vertical-mode 1)
-(setq completion-styles '(basic flex)
-      completions-format 'one-column
-      completions-sort 'historical
-      completions-max-height 30
-      icomplete-scroll t
-      ;; ignore case in icomplete
-      completion-ignore-case t
-      read-file-name-completion-ignore-case t
-      read-buffer-completion-ignore-case t)
-
 (setq create-lockfiles nil
       make-backup-files nil)
 (let ((dir (expand-file-name "~/.config/emacs/saves/")))
@@ -24,33 +13,16 @@
 
 (savehist-mode 1)
 (which-key-mode 1)
-(menu-bar-mode -1)
-(tool-bar-mode -1)
 (setq ring-bell-function 'ignore)
 
 (set-face-attribute 'default nil :family "Iosevka NFM" :height 140)
 (set-face-attribute 'fixed-pitch nil :family "Iosevka NFM" :height 1.0)
 (set-face-attribute 'variable-pitch nil :family "Inter" :height 160)
-
-(require-theme 'modus-themes)
-(setq modus-vivendi-palette-overrides
-      '((docstring yellow-faint)
-	(string yellow-warmer))
-      modus-themes-headings
-      '((1 . (variable-pitch bold 1.5))
-	(2 . (variable-pitch bold 1.4))
-	(3 . (variable-pitch bold 1.3))
-	(4 . (variable-pitch bold 1.2))
-	(t . (variable-pitch bold 1.1)))
-      modus-themes-italic-constructs t
-      modus-themes-bold-constructs nil
-      modus-themes-mixed-fonts t)
-(load-theme 'modus-operandi)
+(load-theme 'leuven)
 
 (setq org-startup-indented t)
 
-(add-hook 'prog-mode-hook (lambda() (display-line-numbers-mode 1)
-				     (completion-preview-mode 1)))
+(add-hook 'prog-mode-hook 'display-line-numbers-mode)
 
 (setopt use-short-answers t)
 (setq ns-option-modifier 'meta
@@ -84,6 +56,47 @@
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
 
+(use-package consult
+  :bind (("C-c m" . consult-man)
+         ("C-c i" . consult-info)
+         ([remap Info-search] . consult-info)
+         ("C-x b" . consult-buffer)
+         ("C-x p b" . consult-project-buffer)
+         ("M-y" . consult-yank-pop)
+         ("M-g f" . consult-flymake)
+         ("M-g o" . consult-outline) ;; org headings
+         ("M-s d" . consult-find)
+         ("M-s c" . consult-locate)
+         ("M-s g" . consult-grep)
+         ("M-s G" . consult-git-grep)
+         ("M-s r" . consult-ripgrep)
+         ("M-s l" . consult-line)
+         ("M-s L" . consult-line-multi)
+         ("M-s u" . consult-focus-lines))
+  :hook (completion-list-mode . consult-preview-at-point-mode)
+  :init
+  (advice-add #'register-preview :override #'consult-register-window)
+  (setq register-preview-delay 0.5)
+  (setq xref-show-xrefs-function #'consult-xref
+        xref-show-definitions-function #'consult-xref)
+  :config
+  (consult-customize
+   consult-theme :preview-key '(:debounce 0.2 any)
+   consult-ripgrep consult-git-grep consult-grep consult-man
+   consult-bookmark consult-recent-file consult-xref
+   consult-source-bookmark consult-source-file-register
+   consult-source-recent-file consult-source-project-recent-file
+   :preview-key '(:debounce 0.4 any)))
+
+(use-package corfu
+  :ensure t
+  :custom
+  (corfu-cycle t)
+  :init
+  (global-corfu-mode)
+  (corfu-history-mode)
+  (corfu-popupinfo-mode))
+
 (use-package elfeed
   :ensure t
   :bind (("C-x f" . elfeed)
@@ -110,7 +123,54 @@
   :config
   (elfeed-protocol-enable))
 
+(use-package embark
+  :ensure t
+  :bind
+  (("C-." . embark-act)
+   ("C-;" . embark-dwim)
+   ("C-h B" . embark-bindings))
+  :init
+  (setq prefix-help-command #'embark-prefix-help-command)
+  :config
+  (add-to-list 'display-buffer-alist
+               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+                 nil
+                 (window-parameters (mode-line-format . none)))))
+
+(use-package embark-consult
+  :ensure t
+  :hook
+  (embark-collect-mode . consult-preview-at-point-mode))
+
+(use-package marginalia
+  :ensure t
+  :init
+  (marginalia-mode))
+
+(use-package orderless
+  :ensure t
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-overrides '((file (styles partial-completion))))
+  (completion-category-defaults nil)
+  (completion-pcm-leading-wildcard t))
+
 (use-package verb
   :ensure t
   :after org
   :config (define-key org-mode-map (kbd "C-c C-r") verb-command-map))
+
+(use-package vertico
+  :ensure t
+  :custom
+  ;; emacs
+  (context-menu-mode t)
+  (enable-recursive-minibuffers t)
+  (read-extended-command-predicate #'command-completion-default-include-p)
+  (minibuffer-prompt-properties
+   '(read-only t cursor-intangible t face minibuffer-prompt))
+  ;; vertico
+  (vertico-count 10)
+  (vertico-cycle t)
+  :init
+  (vertico-mode))
