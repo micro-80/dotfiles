@@ -19,19 +19,6 @@
 (set-face-attribute 'fixed-pitch nil :family "Iosevka NFM" :height 1.0)
 (set-face-attribute 'variable-pitch nil :family "Inter" :height 160)
 
-(require-theme 'modus-themes)
-(setq modus-themes-headings
-      '((1 . (variable-pitch bold 1.5))
-	(2 . (variable-pitch bold 1.4))
-	(3 . (variable-pitch bold 1.3))
-	(4 . (variable-pitch bold 1.2))
-	(t . (variable-pitch bold 1.1)))
-      modus-themes-italic-constructs t
-      modus-themes-bold-constructs nil
-      modus-themes-mixed-fonts t
-      modus-themes-to-toggle '(modus-operandi-tinted modus-vivendi-tinted))
-(load-theme 'modus-operandi-tinted)
-
 (setq org-startup-indented t)
 
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
@@ -108,6 +95,12 @@
   (global-corfu-mode)
   (corfu-history-mode)
   (corfu-popupinfo-mode))
+
+(use-package doric-themes
+  :ensure t
+  :demand t
+  :config
+  (doric-themes-select 'doric-fire))
 
 (use-package elfeed
   :ensure t
