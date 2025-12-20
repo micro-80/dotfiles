@@ -51,6 +51,8 @@
 		      ("\\.yaml\\'" . yaml-ts-mode)))
   (add-to-list 'auto-mode-alist mode-alist))
 
+(load-file "~/.config/emacs/notes.el")
+
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
@@ -159,6 +161,17 @@
   (completion-category-overrides '((file (styles partial-completion))))
   (completion-category-defaults nil)
   (completion-pcm-leading-wildcard t))
+
+(use-package tempel
+  :ensure t
+  :init
+  (defun tempel-setup-capf ()
+    (setq-local completion-at-point-functions
+                (cons #'tempel-expand completion-at-point-functions)))
+  (add-hook 'conf-mode-hook 'tempel-setup-capf)
+  (add-hook 'prog-mode-hook 'tempel-setup-capf)
+  (add-hook 'text-mode-hook 'tempel-setup-capf)
+)
 
 (use-package verb
   :ensure t
