@@ -1,0 +1,9 @@
+fundamental-mode
+
+(notes-new "${title}")
+(notes-journal-weekly "${title}")
+(notes-journal-monthly "${title}")
+;; Local Variables:
+;; mode: lisp-data
+;; outline-regexp: "[a-z]"
+;; End:
