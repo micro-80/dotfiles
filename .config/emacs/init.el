@@ -52,6 +52,8 @@
   (add-to-list 'auto-mode-alist mode-alist))
 
 (load-file "~/.config/emacs/notes.el")
+(setq notes-folder "~/Org/Notes"
+      notes-journal-folder "~/Org/Journal")
 
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
@@ -103,6 +105,9 @@
   :demand t
   :config
   (doric-themes-select 'doric-fire))
+
+(use-package eat
+  :ensure t)
 
 (use-package elfeed
   :ensure t

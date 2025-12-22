@@ -60,5 +60,7 @@
     (notes--open-file-and-insert-template path "notes-journal-monthly")))
 
 ;; TODO - separate a file name by its tags and title
+;; TODO - if either notes folder or journal folder are nil, prevent making file
+;; TODO - allow override of template values
 
 (provide'notes)
