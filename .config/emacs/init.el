@@ -51,10 +51,6 @@
 		      ("\\.yaml\\'" . yaml-ts-mode)))
   (add-to-list 'auto-mode-alist mode-alist))
 
-(load-file "~/.config/emacs/notes.el")
-(setq notes-folder "~/Org/Notes"
-      notes-journal-folder "~/Org/Journal")
-
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
@@ -197,3 +193,8 @@
   (vertico-cycle t)
   :init
   (vertico-mode))
+
+;; have to place these last due to dependency on tempel
+(load-file "~/.config/emacs/notes.el")
+(setq notes-folder "~/Org/Notes"
+      notes-journal-folder "~/Org/Journal")
