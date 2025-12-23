@@ -11,6 +11,7 @@
   (setq auto-save-file-name-transforms `((".*" ,dir t))
         auto-save-list-file-prefix (concat dir ".saves-")))
 
+(menu-bar-mode -1)
 (savehist-mode 1)
 (which-key-mode 1)
 (setq ring-bell-function 'ignore)
@@ -149,6 +150,9 @@
   :ensure t
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
+
+(use-package magit
+  :ensure t)
 
 (use-package marginalia
   :ensure t

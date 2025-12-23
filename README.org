@@ -1,25 +1,2 @@
-* MacOS install steps
-
-- Install homebrew (todo insert link)
-- Install Firefox + Betterfox
-
-todo below format
-** Emacs
-- brew tap d12frosted/emacs-plus && brew install emacs-plus
-- brew install ripgrep
-- brew install --cask font-hack-nerd-font
-
-** Settings
-*** Desktop + Dock
-- Dock Position Bottom
-- Auto hide dock ON
-- Show suggested and recent apps OFF
-- Disable widgets
-- Automatically rearrange spaces OFF
-*** Keyboard
-- Show Apps Cmd+D
-- Copy picture of selected area as file to clipboard Cmd+=
-*** Trackpad
-- Tap to click OFF
-- Natural Scrolling OFF
+* dotfiles
 
