@@ -31,6 +31,8 @@
 (setenv "PATH" (concat "/opt/homebrew/bin:" (getenv "PATH")))
 (add-to-list 'exec-path "/opt/homebrew/bin")
 
+(setq vc-follow-symlinks t)
+
 (require 'eglot)
 (dolist (eglot-hooks '(go-ts-mode-hook))
   (add-hook eglot-hooks #'eglot-ensure))
@@ -88,6 +90,14 @@
    consult-source-recent-file consult-source-project-recent-file
    :preview-key '(:debounce 0.4 any)))
 
+(use-package consult-denote
+  :ensure t
+  :bind
+  (("C-c n f" . consult-denote-find)
+   ("C-c n g" . consult-denote-grep))
+  :config
+  (consult-denote-mode 1))
+
 (use-package corfu
   :ensure t
   :custom
@@ -97,6 +107,31 @@
   (corfu-history-mode)
   (corfu-popupinfo-mode))
 
+(use-package denote
+  :ensure t
+  :hook (dired-mode . denote-dired-mode)
+  :bind
+  (("C-c n n" . denote)
+   ("C-c n r" . denote-rename-file)
+   ("C-c n l" . denote-link)
+   ("C-c n b" . denote-backlinks)
+   ("C-c n d" . denote-dired))
+  :custom
+  (denote-directory (expand-file-name "~/Org/Notes/"))
+  :config
+  (denote-rename-buffer-mode 1))
+
+(use-package denote-journal
+  :ensure t
+  :commands ( denote-journal-new-entry
+              denote-journal-new-or-existing-entry
+              denote-journal-link-or-create-entry )
+  :hook (calendar-mode . denote-journal-calendar-mode)
+  :custom
+  (denote-journal-directory (expand-file-name "journal" denote-directory))
+  (denote-journal-keyword "journal")
+  (denote-journal-title-format "%Y-%m-%d"))
+
 (use-package doric-themes
   :ensure t
   :demand t
@@ -104,33 +139,9 @@
   (doric-themes-select 'doric-fire))
 
 (use-package eat
-  :ensure t)
-
-(use-package elfeed
   :ensure t
-  :bind (("C-x f" . elfeed)
-	 :map elfeed-search-mode-map
-         ("m" . (lambda ()
-		  (interactive)
-		  (elfeed-search-toggle-all 'star))))
   :custom
-  (elfeed-use-curl t)
-  (elfeed-curl-extra-arguments '("--insecure"))
-  :config
-  (elfeed-set-timeout 36000))
-
-(use-package elfeed-protocol
-  :ensure t
-  :after elfeed
-  :custom
-  (elfeed-protocol-feeds '(("fever+http://admin@aiko"
-			    :api-url "http://aiko/api/fever.php"
-			    :password-file "~/.config/emacs/freshrss-password"))) ;; TODO - use 'pass' maybe?
-  (elfeed-protocol-enabled-protocols '(fever))
-  (elfeed-protocol-fever-update-unread-only nil)
-  (elfeed-protocol-fever-fetch-category-as-tag t) ;; freshrss id fix
-  :config
-  (elfeed-protocol-enable))
+  (eat-term-name "xterm-256color"))
 
 (use-package embark
   :ensure t
@@ -167,16 +178,11 @@
   (completion-category-defaults nil)
   (completion-pcm-leading-wildcard t))
 
-(use-package tempel
-  :ensure t
-  :init
-  (defun tempel-setup-capf ()
-    (setq-local completion-at-point-functions
-                (cons #'tempel-expand completion-at-point-functions)))
-  (add-hook 'conf-mode-hook 'tempel-setup-capf)
-  (add-hook 'prog-mode-hook 'tempel-setup-capf)
-  (add-hook 'text-mode-hook 'tempel-setup-capf)
-)
+;; remember to install mupdf
+(setq package-vc-allow-build-commands t)
+(use-package reader
+  :vc (:url "https://codeberg.org/divyaranjan/emacs-reader"
+  	    :make "clean all"))
 
 (use-package verb
   :ensure t
@@ -197,8 +203,3 @@
   (vertico-cycle t)
   :init
   (vertico-mode))
-
-;; have to place these last due to dependency on tempel
-(load-file "~/.config/emacs/notes.el")
-(setq notes-folder "~/Org/Notes"
-      notes-journal-folder "~/Org/Journal")
