@@ -58,15 +58,19 @@
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
 
+(use-package cape
+  :ensure t
+  :bind ("C-c p" . cape-prefix-map)
+  :init
+  (add-hook 'completion-at-point-functions #'cape-dabbrev)
+  (add-hook 'completion-at-point-functions #'cape-file)
+  (add-hook 'completion-at-point-functions #'cape-elisp-block))
+
 (use-package consult
-  :bind (("C-c m" . consult-man)
-         ("C-c i" . consult-info)
-         ([remap Info-search] . consult-info)
+  :ensure t
+  :bind (([remap Info-search] . consult-info)
          ("C-x b" . consult-buffer)
          ("C-x p b" . consult-project-buffer)
-         ("M-y" . consult-yank-pop)
-         ("M-g f" . consult-flymake)
-         ("M-g o" . consult-outline) ;; org headings
          ("M-s d" . consult-find)
          ("M-s c" . consult-locate)
          ("M-s g" . consult-grep)
