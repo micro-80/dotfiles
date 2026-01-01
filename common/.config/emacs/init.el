@@ -127,9 +127,10 @@
 
 (use-package denote-journal
   :ensure t
-  :commands ( denote-journal-new-entry
-              denote-journal-new-or-existing-entry
-              denote-journal-link-or-create-entry )
+  :bind (("C-c n j" . denote-journal-new-or-existing-entry))
+  :commands (denote-journal-new-entry
+             denote-journal-new-or-existing-entry
+             denote-journal-link-or-create-entry)
   :hook (calendar-mode . denote-journal-calendar-mode)
   :custom
   (denote-journal-directory (expand-file-name "journal" denote-directory))
