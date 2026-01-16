@@ -16,7 +16,7 @@
 (which-key-mode 1)
 (setq ring-bell-function 'ignore)
 
-(set-face-attribute 'default nil :family "Iosevka NFM" :height 140)
+(set-face-attribute 'default nil :family "Iosevka NFM" :height 160)
 (set-face-attribute 'fixed-pitch nil :family "Iosevka NFM" :height 1.0)
 (set-face-attribute 'variable-pitch nil :family "Inter" :height 160)
 
@@ -32,6 +32,10 @@
 (add-to-list 'exec-path "/opt/homebrew/bin")
 
 (setq vc-follow-symlinks t)
+
+(setq ediff-window-setup-function 'ediff-setup-windows-plain
+      ediff-split-window-function 'split-window-horizontally)
+(add-hook 'ediff-cleanup-hook (lambda () (ediff-janitor t nil)))
 
 (require 'eglot)
 (dolist (eglot-hooks '(go-ts-mode-hook))
@@ -111,6 +115,10 @@
   (corfu-history-mode)
   (corfu-popupinfo-mode))
 
+(use-package csv-mode
+  :ensure t
+  :mode ("\\.csv\\'" . csv-mode))
+
 (use-package denote
   :ensure t
   :hook (dired-mode . denote-dired-mode)
@@ -134,8 +142,9 @@
   :hook (calendar-mode . denote-journal-calendar-mode)
   :custom
   (denote-journal-directory (expand-file-name "journal" denote-directory))
+  (denote-journal-interval 'weekly)
   (denote-journal-keyword "journal")
-  (denote-journal-title-format "%Y-%m-%d"))
+  (denote-journal-title-format "%Y-W%W"))
 
 (use-package doric-themes
   :ensure t
@@ -183,11 +192,9 @@
   (completion-category-defaults nil)
   (completion-pcm-leading-wildcard t))
 
-;; remember to install mupdf
-(setq package-vc-allow-build-commands t)
-(use-package reader
-  :vc (:url "https://codeberg.org/divyaranjan/emacs-reader"
-  	    :make "clean all"))
+(use-package tempel
+  :bind (("M-+" . tempel-complete)
+         ("M-*" . tempel-insert)))
 
 (use-package verb
   :ensure t
@@ -208,3 +215,6 @@
   (vertico-cycle t)
   :init
   (vertico-mode))
+
+(use-package wgrep
+  :ensure t)
