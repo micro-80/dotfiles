@@ -1,5 +1,7 @@
 path+=($HOME/.bin)
 
+alias install_tpm="git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm"
+
 export EDITOR=nvim
 function install_nvim_nightly_mac () {
 	mkdir -p "$HOME/.bin/data/nvim-nightly"
@@ -15,6 +17,8 @@ function install_nvim_nightly_linux () {
 	ln -sf "$HOME/.bin/data/nvim-nightly/bin/nvim" "$HOME/.bin/nvim"
 }
 
+export ZSH_COMPDUMP="$HOME/.zcompdump"
+export HISTFILE="$HOME/.zsh_history"
 export HISTSIZE=10000
 export SAVEHIST=10000
 setopt append_history
@@ -27,6 +31,7 @@ autoload -U compinit; compinit
 fpath+=($XDG_CONFIG_HOME/zsh/pure)
 autoload -U promptinit; promptinit
 prompt pure
+bindkey -e
 # single line
 prompt_newline='%666v'
 PROMPT=" $PROMPT"

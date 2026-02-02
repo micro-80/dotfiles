@@ -1,5 +1,21 @@
 {
   "plugins": {
+    "bullets.vim": {
+      "rev": "89294b8930e660936374fb763ac48a1ac51dd29c",
+      "src": "https://github.com/bullets-vim/bullets.vim"
+    },
+    "ef-themes.nvim": {
+      "rev": "80c78623b7b52850f756d9e779c3b43dd7685737",
+      "src": "https://github.com/micro-80/ef-themes.nvim"
+    },
+    "kulala.nvim": {
+      "rev": "ca06d823e33cee109622e01b653952d50bb41b55",
+      "src": "https://github.com/mistweaverco/kulala.nvim"
+    },
+    "mason.nvim": {
+      "rev": "44d1e90e1f66e077268191e3ee9d2ac97cc18e65",
+      "src": "https://github.com/mason-org/mason.nvim"
+    },
     "mini.nvim": {
       "rev": "9b935c218ddba02e5dc75c94f90143bce1f7c646",
       "src": "https://github.com/nvim-mini/mini.nvim"
