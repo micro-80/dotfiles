@@ -100,4 +100,18 @@ bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
 bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
 bindsym Print exec grim
 
+client.focused          #6e94b2  #141415  #cdcdcd  #e8b589  #c48282
+client.focused_inactive #252530  #1c1c24  #cdcdcd  #606079  #252530
+client.unfocused        #252530  #141415  #606079  #252530  #252530
+client.urgent           #d8647e  #141415  #cdcdcd  #f3be7c  #d8647e
+client.placeholder      #252530  #141415  #606079  #333738  #252530
+client.background       #141415
+
+smart_borders on
+default_border pixel 3
+default_floating_border pixel 3
+
+smart_gaps on
+gaps inner 5
+
 bar swaybar_command waybar

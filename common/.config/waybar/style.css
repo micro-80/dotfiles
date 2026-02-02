@@ -1,21 +1,21 @@
 @keyframes blink-warning {
     70% {
-        color: white;
+        color: #cdcdcd;
     }
 
     to {
-        color: white;
+        color: #cdcdcd;
         background-color: orange;
     }
 }
 
 @keyframes blink-critical {
     70% {
-      color: white;
+      color: #cdcdcd;
     }
 
     to {
-        color: white;
+        color: #cdcdcd;
         background-color: red;
     }
 }
@@ -36,8 +36,8 @@
 
 /* The whole bar */
 #waybar {
-    background: #323232;
-    color: white;
+    background: #141415;
+    color: #cdcdcd;
     font-family: Noto Sans, sans-serif;
     font-size: 13px;
 }
@@ -120,7 +120,7 @@
 
 #mode {
     background: #64727D;
-    border-top: 2px solid white;
+    border-top: 2px solid #cdcdcd;
     /* To compensate for the top border and still have vertical centering */
     padding-bottom: 2px;
 }
@@ -167,13 +167,13 @@
     padding-bottom: 2px;
     padding-left: 10px;
     padding-right: 10px;
-    color: #888888;
+    color: #cdcdcd;
 }
 
 #workspaces button.focused {
-    border-color: #4c7899;
-    color: white;
-    background-color: #285577;
+    border-color: #e0a363;
+    color: #333738;
+    background-color: #e8b589;
 }
 
 #workspaces button.urgent {
