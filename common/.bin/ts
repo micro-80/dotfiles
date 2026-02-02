@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+CODE_DIR="$HOME/Code"
+
+function create_or_attach_session() {
+  session="$1"
+  path="$2"
+  # create session if it doesn't exist
+  if ! tmux has-session -t "$session" 2>/dev/null; then
+    tmux new-session -d -s "$session" -c "$path"
+  fi
+  
+  # attach or switch depending on context
+  if [ -z "$TMUX" ]; then
+    tmux attach -t "$session"
+  else
+    tmux switch-client -t "$session"
+  fi
+}
+
+# sanity checks
+command -v tmux >/dev/null 2>&1 || {
+  echo "tmux not found"
+  exit 1
+}
+
+command -v fzf >/dev/null 2>&1 || {
+  echo "fzf not found"
+  exit 1
+}
+
+
+if [[ -n "$1" ]]; then
+  create_or_attach_session "$1" "$(realpath $1)"
+else
+  project=$(find "$CODE_DIR" -mindepth 1 -maxdepth 1 -type d \
+    | sed "s|$CODE_DIR/||" \
+    | fzf --prompt="tmux > ")
+  
+  [ -z "$project" ] && exit 0
+  
+  session="$project"
+  path="$CODE_DIR/$project"
+  create_or_attach_session "$session" "$path"
+fi

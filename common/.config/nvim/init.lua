@@ -28,6 +28,9 @@ set_key("n", "<leader>d", vim.diagnostic.open_float, keymap_defaults)
 set_key("n", "<leader>rn", vim.lsp.buf.rename, keymap_defaults)
 
 vim.pack.add({
+	'https://github.com/mason-org/mason.nvim',
+	'https://github.com/mason-org/mason-lspconfig.nvim',
+	'https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim',
 	"https://github.com/nvim-mini/mini.nvim",
 	"https://github.com/neovim/nvim-lspconfig",
 	"https://github.com/nvim-treesitter/nvim-treesitter",
@@ -47,7 +50,7 @@ set_key("n", "\\", mini_pick.builtin.grep_live, keymap_defaults)
 set_key("n", ",", mini_pick.builtin.buffers, keymap_defaults)
 set_key("n", ";", mini_pick.builtin.files, keymap_defaults)
 
-local treesitter_file_types = { "c", "lua" }
+local treesitter_file_types = { "c", "lua", "typescript", "tsx" }
 require("nvim-treesitter").install(treesitter_file_types)
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = treesitter_file_types,
@@ -62,7 +65,15 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
-vim.lsp.enable({"clangd", "lua_ls"})
+require('mason').setup()
+require('mason-lspconfig').setup()
+require('mason-tool-installer').setup({
+	ensure_installed = {
+		"lua_ls",
+		"stylua",
+		"vtsls"
+	}
+})
 
 require("vague").setup({
 	italic = false,
