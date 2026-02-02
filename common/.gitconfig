@@ -1,0 +1,10 @@
+[includeIf "gitdir:/home/user/"]
+	path = ~/.gitconfig.d/home.conf
+[includeIf "gitdir:/Users/mgn25/"]
+	path = ~/.gitconfig.d/work.conf
+
+[core]
+	editor = nvim
+
+[init]
+	defaultBranch = main
