@@ -5,15 +5,33 @@ set $up k
 set $right l
 set $term foot
 set $menu wmenu-run
+set $internalDisplay "eDP-1"
+set $externalDisplay "DP-1"
 
 output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
-output eDP-1 resolution 2556x1504@59.999Hz scale 1.0
+output $internalDisplay resolution 2556x1504@59.999Hz scale 1.0
+output $externalDisplay resolution 2560x1440@143.991Hz scale 1.0 allow_tearing on
+
+workspace 1 output $externalDisplay
+workspace 2 output $externalDisplay
+workspace 3 output $externalDisplay
+workspace 4 output $externalDisplay
+workspace 5 output $externalDisplay
+workspace 6 output $externalDisplay
+workspace 7 output $externalDisplay
+workspace 8 output $externalDisplay
+workspace 9 output $externalDisplay
+workspace 10 output $internalDisplay
 
 input type:touchpad {
     dwt enabled
     tap enabled
     natural_scroll disabled
     middle_emulation enabled
+}
+
+input type:pointer {
+    accel_profile "flat"
 }
 
 bindsym $mod+Return exec $term

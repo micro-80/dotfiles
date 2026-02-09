@@ -1,5 +1,0 @@
-org-mode
-
-(jtoday "* " (format-time-string "%Y-%m-%d"))
-(jticket (p "Ticket number: " ticket noinsert) (p "Ticket description: " description noinsert) "** " ticket " - " description :post (org-set-tags ":ticket:"))
-(jmeeting (p "Meeting description: " description noinsert) "** " description :post (org-set-tags ":meeting:"))
