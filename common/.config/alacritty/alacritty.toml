@@ -9,7 +9,6 @@ dynamic_title = true
 option_as_alt = "OnlyLeft"
 padding = { x = 0, y = 0 }
 
-
 [font]
 size = 15.0
 normal = { family = "Iosevka NF", style = "Regular" }
