@@ -2,7 +2,7 @@
 
 ;; -- VARIABLES --
 (setopt init-eglot-ensure-hooks '(c-mode-hook go-ts-mode-hook)
-	init-frame-font "Iosevka Term 15"
+	init-frame-font "Iosevka Term 16"
 	init-theme 'modus-vivendi)
 
 (setopt completions-format 'one-column
@@ -26,6 +26,10 @@
 
 (load-theme init-theme)
 (set-frame-font init-frame-font nil t)
+
+(setopt auto-save-file-name-transforms
+	`((".*" "~/.emacs.d/autosaves/" t))
+	make-backup-files nil)
 
 (add-hook 'prog-mode-hook 'hl-line-mode)
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
