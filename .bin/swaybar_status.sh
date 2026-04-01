@@ -49,7 +49,7 @@ function get_network() {
     fi
 }
 function module_network() {
-    nmcli monitor | while read -r line; do
+    while read -r line; do
 	echo "$NETWORK_EVENT_PREFIX $(get_network)"
     done < <(nmcli monitor | grep --line-buffered "primary connection")
 }
