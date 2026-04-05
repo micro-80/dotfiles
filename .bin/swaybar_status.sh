@@ -5,10 +5,14 @@ BATTERY_PERCENTAGE=0
 BATTERY_STATE=""
 function output_battery_info() {
     local state_output=""
+    local battery_output="$BATTERY_PERCENTAGE"
+
     if [[ $BATTERY_STATE == "charging" || $BATTERY_STATE == "pending-charge" ]]; then
-	state_output=" (charging)"
+	battery_output="<span foreground='green'>$BATTERY_PERCENTAGE</span>"
+    elif [[ $BATTERY_PERCENTAGE -lt 15 ]]; then
+	battery_output="<span foreground='red'>$BATTERY_PERCENTAGE</span>"
     fi
-    echo "BAT: $BATTERY_PERCENTAGE$state_output"
+    echo "BAT: $battery_output"
 }
 function get_initial_battery_info() {
     local upower_detail=$(upower -d)

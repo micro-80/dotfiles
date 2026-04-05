@@ -28,6 +28,13 @@
 	icomplete-show-matches-on-no-input t
 	icomplete-scroll t)
 
+(let ((my-auto-save-dir (locate-user-emacs-file "auto-save")))
+  (setq auto-save-file-name-transforms
+        `((".*" ,(expand-file-name "\\2" my-auto-save-dir) t)))
+  (unless (file-exists-p my-auto-save-dir)
+    (make-directory my-auto-save-dir)))
+(setopt kill-buffer-delete-auto-save-files t)
+
 (load custom-file :noerror)
 (load-theme 'modus-vivendi)
 (set-frame-font "Iosevka 12" nil t)

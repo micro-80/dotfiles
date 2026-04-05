@@ -12,6 +12,8 @@ smart_borders on
 default_border pixel 3
 default_floating_border pixel 3
 
+exec swayidle -w before-sleep 'swaylock -f'
+
 input type:touchpad {
       dwt disabled
       tap enabled
@@ -97,21 +99,40 @@ bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
 bindsym Print exec grim - | wl-copy -t image/png
 bindsym $mod+Print exec grim -g "$(slurp)" - | wl-copy -t image/png
 
+bindsym $mod+c exec rofi -show calc -modi calc -no-show-match -no-sort -calc-command "echo -n '{result}' | wl-copy"
 bindsym $mod+e exec rofi -show emoji
 
+set $interface org.gnome.desktop.interface
+set $wm-preferences org.gnome.desktop.wm.preferences
+set $gtk-theme 'adw-gtk3-dark'
+set $icon-theme 'Adawita'
+set $font-name 'Noto Sans 11'
+set $monospace-font-name 'Noto Sans Mono 11'
+exec_always {
+    gsettings set $interface color-scheme 'prefer-dark'
+    gsettings set $wm-preferences theme $gtk-theme
+    gsettings set $interface gtk-theme $gtk-theme
+    gsettings set $interface icon-theme $icon-theme
+    gsettings set $interface cursor-theme $icon-theme
+    gsettings set $interface font-name $font-name
+    gsettings set $interface monospace-font-name $monospace-font-name
+}
 
 for_window [app_id="Firefox" title="Picture-in-Picture"] floating enable, resize set width 600 px height 300 px, sticky on
 
 bar {
     position top
 
+    pango_markup enabled
     status_command ~/.bin/swaybar_status.sh
 
     font "Noto Sans 10"
     colors {
     	   statusline #ffffff
-	   background #323232
-	   inactive_workspace #32323200 #32323200 #5c5c5c
+	   background #535353
+	   focused_workspace #646464 #535353 #ffffff
+	   inactive_workspace #1e1e1e #1e1e1e #989898
+	   urgent_workspace #ff6b55 #ff5f59 #c6daff
     }
 }
 

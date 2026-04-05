@@ -1,0 +1,182 @@
+/** modified protesilaos dotfiles
+    https://github.com/protesilaos/dotfiles/blob/cb325dcfe41551bd081de6a1d7020a8ae15ca2cf/rofi/.config/rofi/config.rasi **/
+
+configuration {
+	modi: "run,drun,calc,emoji";
+	font: "Noto Sans 14";
+	location: 0;
+	fixed-num-lines: true;
+	show-icons: true;
+	terminal: "uxterm";
+	combi-modi: "window,drun";
+	matching: "regex";
+	threads: 0;
+	window-format: "{w:0}	{n:0}	{t:0}";
+	click-to-exit: true;
+	max-history-size: 25;
+	combi-hide-mode-prefix: true;
+	display-window: "Windows";
+	display-run: "Executables";
+	display-drun: "Applications";
+	display-combi: "Combined";
+}
+
+window {
+    background-color: @bg-main;
+    border:           5px;
+    border-color:     @bg-alt;
+    padding:          10px;
+    width:            33%;
+}
+
+mainbox {
+    border:  0;
+    padding: 0;
+}
+
+message {
+    border:       2px solid 0px 0px;
+    border-color: @fg-alt;
+    padding:      1px ;
+}
+
+textbox {
+    text-color:   @fg-main;
+}
+
+listview {
+    fixed-height: 0;
+    border:       2px solid 0px 0px;
+    border-color: @bg-alt;
+    spacing:      4px;
+    scrollbar:    true;
+    padding:      2px 0px 0px;
+}
+
+element {
+    border: 0;
+    padding: 1px;
+}
+
+element.normal.normal {
+    background-color: @bg-main;
+    text-color:       @fg-main;
+}
+
+element.normal.urgent {
+    background-color: @red;
+    text-color:       @bg-alt;
+}
+
+element.normal.active {
+    background-color: @bg-alt;
+    text-color:       @fg-alt;
+}
+
+element.selected.normal {
+    background-color: @selection-bg;
+    text-color:       @fg-main;
+}
+
+element.selected.urgent {
+    background-color: @red-bright;
+    text-color:       @bg-main;
+}
+
+element.selected.active {
+    background-color: @blue;
+    text-color:       @bg-main;
+}
+
+element.alternate.normal {
+    background-color: @bg-main;
+    text-color:       @fg-main;
+}
+
+element.alternate.urgent {
+    background-color: @red-bright;
+    text-color:       @bg-alt;
+}
+
+element alternate.active {
+    background-color: @cyan-bright;
+    text-color:       @bg-alt;
+}
+
+mode-switcher {
+    border:       2px solid 0px 0px ;
+    border-color: @bg-alt;
+}
+
+scrollbar {
+    /* width:        4px; */
+    width:        0;
+    border:       0;
+    handle-color: @fg-alt;
+    /* handle-width: 8px; */
+    handle-width: 0;
+    padding:      0;
+}
+
+sidebar {
+    border:       2px solid 0px 0px;
+    border-color: @fg-alt;
+}
+
+button {
+    spacing: 0;
+    background-color: @bg-main;
+    text-color:       @fg-alt;
+    padding:          5px;
+    horizontal-align: 0.5;
+}
+
+button.selected {
+    background-color: @bg-alt;
+    text-color:       @fg-main;
+}
+
+inputbar {
+    spacing:    10;
+    padding:    1px;
+    text-color: @fg-main;
+    children:   [ prompt,entry ];
+}
+
+prompt {
+    spacing:    0;
+    text-color: @cyan;
+}
+
+entry {
+    spacing:    0;
+    text-color: @fg-main;
+}
+
+
+element-text {
+    background-color: inherit;
+    text-color:       inherit;
+}
+
+* {
+    bg-alt:         #303030ff;
+    bg-main:        #000000ff;
+    fg-alt:         #989898ff;
+    fg-main:        #ffffffff;
+    red:            #ff5f59ff;
+    green:          #44bc44ff;
+    yellow:         #d0bc00ff;
+    blue:           #2fafffff;
+    magenta:        #feacd0ff;
+    cyan:           #00d3d0ff;
+    red-bright:     #ff5f5fff;
+    green-bright:   #44df44ff;
+    yellow-bright:  #efef00ff;
+    blue-bright:    #338fffff;
+    magenta-bright: #ff66ffff;
+    cyan-bright:    #00eff0ff;
+    selection-bg:   #2f447fff;
+    background-color: rgba (0,0,0, 0%);
+    highlight: bold underline #4fafff;
+}
