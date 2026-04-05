@@ -1,21 +1,15 @@
-function m-compile-emacs() {
-    ./autogen.sh
-    ./configure --with-tree-sitter --with-pgtk --with-native-compilation CFLAGS="-O2 -pipe -march=native"
-    make -j16
-    sudo make install
-}
+export SSH_AUTH_SOCK=${HOME}/.ssh/agent
+if ! pgrep -u ${USER} ssh-agent > /dev/null; then
+    rm -f ${SSH_AUTH_SOCK}
+fi
+if [ ! -S ${SSH_AUTH_SOCK} ]; then
+    eval $(ssh-agent -a ${SSH_AUTH_SOCK} 2> /dev/null)
+fi
+if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
+	exec sway
+fi
 
-function m-install-iosevka() {
-    local font_folder="$HOME/.local/share/fonts"
-    local iosevka_folder="$HOME/Downloads/iosevka"
-    mkdir -p "$font_folder" "$iosevka_folder"
-    cd "$iosevka_folder"
-    rm -rf "$iosevka_folder/*"
-    curl -s 'https://api.github.com/repos/be5invis/Iosevka/releases/latest' | jq -r ".assets[] | .browser_download_url" | grep PkgTTC-Iosevka- | xargs -n 1 curl -L -O --fail --silent --show-error
-    unzip * -d "$iosevka_folder"
-    sudo fc-cache
-    cd -
-}
+alias compileEmacs="./autogen.sh && ./configure --with-tree-sitter --with-pgtk --with-native-compilation CFLAGS='-O2 -pipe -march=native' && make -j16 && sudo make install"
 
 PROMPT='%F{green}%n@%m%f:%F{blue}%~%f%# '
 HISTFILE=~/.histfile

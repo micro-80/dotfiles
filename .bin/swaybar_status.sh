@@ -5,8 +5,8 @@ BATTERY_PERCENTAGE=0
 BATTERY_STATE=""
 function output_battery_info() {
     local state_output=""
-    if [[ $BATTERY_STATE == "charging" ]]; then
-	state_output=" ($BATTERY_STATE)"
+    if [[ $BATTERY_STATE == "charging" || $BATTERY_STATE == "pending-charge" ]]; then
+	state_output=" (charging)"
     fi
     echo "BAT: $BATTERY_PERCENTAGE$state_output"
 }
