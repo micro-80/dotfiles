@@ -19,11 +19,7 @@ compinit
 
 if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
     export XDG_CURRENT_DESKTOP=sway
+    export XDG_SESSION_TYPE=sway
     export XDG_SESSION_TYPE=wayland
-    if [ -z "$XDG_RUNTIME_DIR" ]; then
-	export XDG_RUNTIME_DIR="/run/user/$(id -u)"
-	rm -rf $XDG_RUNTIME_DIR
-	mkdir -p $XDG_RUNTIME_DIR
-    fi
     exec dbus-run-session sway
 fi

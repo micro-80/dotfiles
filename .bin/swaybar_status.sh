@@ -9,8 +9,6 @@ function output_battery_info() {
 
     if [[ $BATTERY_STATE == "charging" || $BATTERY_STATE == "pending-charge" ]]; then
 	battery_output="<span foreground='green'>$BATTERY_PERCENTAGE</span>"
-    elif [[ $BATTERY_PERCENTAGE -lt 15 ]]; then
-	battery_output="<span foreground='red'>$BATTERY_PERCENTAGE</span>"
     fi
     echo "BAT: $battery_output"
 }
